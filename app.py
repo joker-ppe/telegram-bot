@@ -56,6 +56,7 @@ async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
     print(f'Update {update} caused error {context.error}')
 
 if __name__ == '__main__':
+    print("App starting...")
     app = Application.builder().token(TOKEN).build()
 
     app.add_handler(CommandHandler('start', start_command))
@@ -65,5 +66,7 @@ if __name__ == '__main__':
     app.add_handler(MessageHandler(filters.TEXT, handle_message))
 
     app.add_error_handler(error)
+
+    print("App running...")
 
     app.run_polling(poll_interval=3)
