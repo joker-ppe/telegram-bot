@@ -16,6 +16,7 @@ async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def custom_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text('ok okokokok')
 
+
 async def wl_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text('Thắng thua hôm qua: 12222')
 
@@ -36,7 +37,8 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     message_type: str = update.message.chat.type
     text: str = update.message.text
 
-    print(f'User ({update.message.chat.id}) in {message_type}: "{text}"')
+    print(f'User ({update.message.chat.id}) @{update.effective_user.username}[{
+          update.effective_user.first_name} {update.effective_user.last_name}] in {message_type}: "{text}"')
 
     if message_type == 'group':
         if BOT_USER_NAME in text:
