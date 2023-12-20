@@ -8,7 +8,7 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters, C
 from worker import get_user_data
 
 TOKEN: Final = '6695572072:AAGxx6Rn8wyTshwhFfOnfSY6AKfhSvJIa6o'
-BOT_USER_NAME: Final = '@em_than_tai_bot'
+BOT_USER_NAME: Final = '@em_loc_phat_bot'
 
 # Command
 
@@ -90,14 +90,14 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     print(f'User @{update.effective_user.username}[{update.effective_user.first_name} {update.effective_user.last_name}] in {message_type}: "{text}"')
 
-    if message_type == 'group':
+    if message_type == 'supergroup':
         if BOT_USER_NAME in text:
             new_text: str = text.replace(BOT_USER_NAME, '').strip()
             response: str = await handle_response(new_text)
         else:
             return
     else:
-        response: str = await handle_response(text)
+        response: str = "Cút, mày không đủ tuổi nói chuyện với tao."
 
     print('Bot:', response)
     await update.message.reply_text(response)
