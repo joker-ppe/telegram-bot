@@ -63,7 +63,7 @@ async def get_agents(from_date, end_date):
     url = f'{baseUrl}/report/agents?startDate={from_date}&endDate={end_date}'
     async with aiohttp.ClientSession() as session:
         response = await fetch_url(session, url)
-        print(response)
+        # print(response)
         if (len(response) == 0):
             return '***'
         return response
