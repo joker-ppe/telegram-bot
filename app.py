@@ -58,10 +58,22 @@ async def handle_response(text: str) -> str:
         time_text = 'tuần này'
 
     # call api
-    if 'os' in text_full.lower() or 'outstanding' in text_full.lower():
+    if 'os công ty' in text_full.lower() or 'outstanding công ty' in text_full.lower() or 'os cong ty' in text_full.lower() or 'os cty' in text_full.lower():
         date = datetime.now().strftime('%Y-%m-%d')
         os = await get_user_os(date, date, 'admin')
         return check_response(f'Outstanding hôm nay:', os)
+    elif 'os cổ đông' in text_full.lower() or 'os co dong' in text_full.lower() or 'os cd' in text_full.lower() or 'os super' in text_full.lower():
+        supers = await get_supers(from_date, end_date)
+        return await send_table_os(supers, 'Cổ Đông')
+    elif 'os tổng đại lý' in text_full.lower() or 'os tong dai ly' in text_full.lower() or 'os tong dl' in text_full.lower() or 'os master' in text_full.lower():
+        masters = await get_masters(from_date, end_date)
+        return await send_table_os(masters, 'Tổng Đại Lý')
+    elif 'os đại lý' in text_full.lower() or 'os dai ly' in text_full.lower() or 'os dly' in text_full.lower() or 'os agent' in text_full.lower():
+        agents = await get_agents(from_date, end_date)
+        return await send_table_os(agents, 'Đại Lý')
+    elif 'os hội viên' in text_full.lower() or 'os hoi vien' in text_full.lower() or 'os hv' in text_full.lower() or 'os member' in text_full.lower():
+        members = await get_members(from_date, end_date)
+        return await send_table_os(members, 'Hội Viên')
     elif 'doanh thu công ty' in text_full.lower() or 'doanh thu cty' in text_full.lower() or 'doanh thu cong ty' in text_full.lower():
         profit = await get_user_profit(from_date, end_date, 'admin')
         return check_response_company_profit(f'Doanh thu công ty {time_text}:', profit)
@@ -137,6 +149,7 @@ async def handle_response(text: str) -> str:
 
 async def send_table(json_data, time_text, role='Cổ Đông'):
     table = pt.PrettyTable(['STT.', role, 'Thắng thua'])
+    table.title = f'Báo cáo {role} {time_text}'
     table.align['STT.'] = 'l'
     table.align[role] = 'l'
     table.align['Thắng thua'] = 'r'
@@ -144,16 +157,56 @@ async def send_table(json_data, time_text, role='Cổ Đông'):
     if (json_data == "***"):
         return "Không tìm thấy thông tin. Anh vui lòng kiểm tra và thử lại."
 
-    data = [(index + 1, item["full_name"], item["profit"])
-            for index, item in enumerate(json_data)]
+    # print(json_data)
+
+    data = [(item["full_name"], item["profit"])
+            for item in json_data]
+
+    # print(data)
 
     if (len(data) == 0):
         return "Không tìm thấy thông tin. Anh vui lòng kiểm tra và thử lại."
 
-    for stt, full_name, profit in data:
-        table.add_row([stt, full_name, "{:,}".format(round(profit))])
+    data = sorted(data, key=lambda x: x[1], reverse=True)
 
-    return f'Báo cáo {role} {time_text}:\n<pre>{table}</pre>'
+    total = sum(int(item[1]) for item in data)
+
+    for index, (full_name, profit) in enumerate(data, start=1):
+        table.add_row([index, full_name, "{:,}".format(round(profit))])
+
+    table.add_row(['------', '-----------', '-----------'])
+    table.add_row(['***', 'Tổng', "{:,}".format(round(total))])
+
+    return f'<pre>{table}</pre>'
+
+
+async def send_table_os(json_data, role='Cổ Đông'):
+    table = pt.PrettyTable(['STT.', role, 'Outstanding'])
+    table.title = f'Báo cáo Outstanding {role}'
+    table.align['STT.'] = 'l'
+    table.align[role] = 'l'
+    table.align['Outstanding'] = 'r'
+
+    if (json_data == "***"):
+        return "Không tìm thấy thông tin. Anh vui lòng kiểm tra và thử lại."
+
+    data = [(item["full_name"], item["outstanding"])
+            for item in json_data]
+
+    if (len(data) == 0):
+        return "Không tìm thấy thông tin. Anh vui lòng kiểm tra và thử lại."
+
+    data = sorted(data, key=lambda x: x[1], reverse=True)
+
+    total = sum(int(item[1]) for item in data)
+
+    for index, (full_name, outstanding) in enumerate(data, start=1):
+        table.add_row([index, full_name, "{:,}".format(round(outstanding))])
+
+    table.add_row(['------', '-----------', '-----------'])
+    table.add_row(['***', 'Tổng', "{:,}".format(round(total))])
+
+    return f'<pre>{table}</pre>'
 
     # update.message.reply_text(f'<pre>{table}</pre>', parse_mode=ParseMode.HTML)
 
@@ -182,28 +235,41 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # print('User @'+update.effective_user.username +'['+update.effective_user.first_name+' ' + update.effective_user.last_name+'] in ' + message_type + ": " + text)
     print('Input: ' + text)
 
+    group_white_list = [
+        -1002044356915,
+        -1002036601443
+    ]
+
     message_to_delete = await context.bot.send_message(chat_id, f'Đang tổng hợp dữ liệu. Anh {update.effective_user.first_name} {update.effective_user.last_name} đợi em chút nhé')
     message_id = message_to_delete.message_id
 
     if message_type == 'supergroup':
-        if BOT_USER_NAME in text:
-            # message_to_delete = await context.bot.send_message(chat_id, 'Đang tổng hợp dữ liệu. Đợi em chút nhé')
-            # message_id = message_to_delete.message_id
+        print(chat_id)
 
-            text: str = text.replace(BOT_USER_NAME, '').strip()
-            # response: str = await handle_response(new_text)
+        if chat_id in group_white_list:
+            if BOT_USER_NAME in text:
+                # message_to_delete = await context.bot.send_message(chat_id, 'Đang tổng hợp dữ liệu. Đợi em chút nhé')
+                # message_id = message_to_delete.message_id
+
+                text: str = text.replace(BOT_USER_NAME, '').strip()
+                # response: str = await handle_response(new_text)
+            else:
+                print('@' + update.effective_user.username)
+                # return
+
+            response: str = await handle_response(text)
         else:
-            print('@' + update.effective_user.username)
-            # return
+            response: str = "Cút, mày không đủ tuổi nói chuyện với tao."
+
     else:
         # message_to_delete = await context.bot.send_message(chat_id, 'Đang tổng hợp dữ liệu. Đợi em chút nhé')
         # message_id = message_to_delete.message_id
         print('@' + update.effective_user.username)
 
         # response: str = await handle_response(text)
-        # response: str = "Cút, mày không đủ tuổi nói chuyện với tao."
+        response: str = "Cút, mày không đủ tuổi nói chuyện với tao."
 
-    response: str = await handle_response(text)
+    # response: str = await handle_response(text)
 
     print('Bot:', response)
     await update.message.reply_html(response)
