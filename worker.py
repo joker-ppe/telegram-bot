@@ -3,9 +3,9 @@ import aiohttp
 import asyncio
 
 
-# baseUrl = "http://3.1.5.108:3004"
+baseUrl = "http://3.1.5.108:3004"
 # baseUrl = "https://api.winwwin68.com"
-baseUrl = "http://localhost:3004"
+# baseUrl = "http://localhost:3004"
 
 
 async def fetch_url(session, url):
@@ -63,7 +63,7 @@ async def get_agents(from_date, end_date):
     url = f'{baseUrl}/report/agents?startDate={from_date}&endDate={end_date}'
     async with aiohttp.ClientSession() as session:
         response = await fetch_url(session, url)
-        # print(response)
+        print(response)
         if (len(response) == 0):
             return '***'
         return response
