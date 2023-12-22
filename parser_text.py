@@ -253,9 +253,12 @@ async def send_table_user_image(json_data):
     html_table += f"<tr><th>{json_data['title']}</th><th>{json_data['full_name']}</th></tr>"
 
     html_table += f"<tr><td>Line</td><td style='text-align: center;'>{json_data['line']}</td></tr>"
-    html_table += f"<tr><td>Thắng thua hôm qua</td><td>{"{:,}".format(round(json_data['yesterdayData']))}</td></tr>"
-    html_table += f"<tr><td>Thắng thua hôm nay</td><td>{"{:,}".format(round(json_data['todayData']))}</td></tr>"
-    html_table += f"<tr><td>Thắng thua tuần này</td><td>{"{:,}".format(round(json_data['profit']))}</td></tr>"
+    yesterdayData = "{:,}".format(round(json_data['yesterdayData']))
+    html_table += f"<tr><td>Thắng thua hôm qua</td><td>{yesterdayData}</td></tr>"
+    todayData = "{:,}".format(round(json_data['todayData']))
+    html_table += f"<tr><td>Thắng thua hôm nay</td><td>{todayData}</td></tr>"
+    profit = "{:,}".format(round(json_data['profit']))
+    html_table += f"<tr><td>Thắng thua tuần này</td><td>{profit}</td></tr>"
 
     html_table += "</table>"
     html_table += "</body></html>"
