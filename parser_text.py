@@ -92,12 +92,10 @@ async def send_table_image(json_data, time_text, role='Cổ Đông'):
     html_table += "<tr><th>STT.</th><th>{}</th><th>Thắng thua</th></tr>".format(role)
 
     for index, (full_name, profit) in enumerate(data, start=1):
-        html_table += f"<tr><td>{index}</td><td>{
-            full_name}</td><td>{profit:,}</td></tr>"
+        html_table += f"<tr><td>{index}</td><td>{full_name}</td><td>{profit:,}</td></tr>"
 
     # Thêm hàng tổng
-    html_table += f"<tr style='font-weight: bold;'><td colspan='2' style='text-align: center;'>Tổng</td><td style='text-align: right;'>{
-        total:,}</td></tr>"
+    html_table += f"<tr style='font-weight: bold;'><td colspan='2' style='text-align: center;'>Tổng</td><td style='text-align: right;'>{total:,}</td></tr>"
 
     html_table += "</table>"
     html_table += "</body></html>"
@@ -194,12 +192,10 @@ async def send_table_os_image(json_data, role='Cổ Đông'):
         role)
 
     for index, (full_name, outstanding) in enumerate(data, start=1):
-        html_table += f"<tr><td>{index}</td><td>{
-            full_name}</td><td>{outstanding:,}</td></tr>"
+        html_table += f"<tr><td>{index}</td><td>{full_name}</td><td>{outstanding:,}</td></tr>"
 
     # Thêm hàng tổng
-    html_table += f"<tr style='font-weight: bold;'><td colspan='2' style='text-align: center;'>Tổng</td><td style='text-align: right;'>{
-        total:,}</td></tr>"
+    html_table += f"<tr style='font-weight: bold;'><td colspan='2' style='text-align: center;'>Tổng</td><td style='text-align: right;'>{total:,}</td></tr>"
 
     html_table += "</table>"
     html_table += "</body></html>"
