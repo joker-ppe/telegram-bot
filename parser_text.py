@@ -571,7 +571,9 @@ async def send_table_user_os_bet_image(json_data):
 
 async def send_table_user_os_bet(json_data):
     table = pt.PrettyTable(['STT.', 'Thể loại', 'Số', 'Điểm', 'Tổng'])
-    table.title = f'Tổng Outstanding {json_data['full_name']}: {json_data['outstanding']:,}'
+    full_name = json_data['full_name']
+    outstanding = "{:,}".format(round(json_data['outstanding']))
+    table.title = f'Tổng Outstanding {full_name}: {outstanding}'
     table.align['STT.'] = 'l'
     table.align['Thể loại'] = 'l'
     table.align['Số'] = 'r'
