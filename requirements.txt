@@ -1,5 +1,6 @@
 aiohttp==3.9.1
 imgkit==1.2.3
+pdfkit==1.0.0
 prettytable==3.9.0
 python-telegram-bot==20.7
 Requests==2.31.0

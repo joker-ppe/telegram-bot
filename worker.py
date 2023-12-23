@@ -31,6 +31,30 @@ async def get_user_data(from_date, end_date, user_name, filter='profit'):
             return '***'
         return response[filter]
         # print(response)
+    
+async def get_report_number(end_date):
+    url = f'{baseUrl}/report/numbers?endDate={end_date}'
+    async with aiohttp.ClientSession() as session:
+        response = await fetch_url(session, url)
+        if (len(response) == 0):
+            return '***'
+        return response
+
+async def get_user_os_bet(end_date, user_name):
+    url = f'{baseUrl}/report/user/os_bet?endDate={end_date}&userName={user_name}'
+    async with aiohttp.ClientSession() as session:
+        response = await fetch_url(session, url)
+        if (len(response) == 0):
+            return '***'
+        return response
+
+async def get_user_os_number(end_date, user_name):
+    url = f'{baseUrl}/report/user/os_number?endDate={end_date}&userName={user_name}'
+    async with aiohttp.ClientSession() as session:
+        response = await fetch_url(session, url)
+        if (len(response) == 0):
+            return '***'
+        return response
 
 async def get_user_profit(from_date, end_date, user_name):
     response = await get_user_data(from_date, end_date, user_name, filter='profit')

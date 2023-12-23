@@ -1,7 +1,7 @@
 # import everything
 import asyncio
 import os
-import imgkit
+import imgkit, pdfkit
 from datetime import datetime, timedelta
 from typing import Final
 from telegram import Update
@@ -127,7 +127,41 @@ async def handle_response(text: str) -> str:
             end_date = datetime.now().strftime('%Y-%m-%d')
 
             user = await get_user(from_date, end_date, formatted_yesterday, info)
+            # user = await get_user(from_date, formatted_yesterday, (datetime.now() - timedelta(days=2)).strftime('%Y-%m-%d'), info)
             return await send_table_user_image(user)
+        elif detect_member_info_os_bet(processed):
+            yesterday = datetime.now() - timedelta(days=1)
+            formatted_yesterday = yesterday.strftime('%Y-%m-%d')
+
+            today = datetime.now()
+            # Calculate the number of days to subtract to get to Monday
+            # weekday() returns 0 for Monday, 1 for Tuesday, and so on
+            days_to_subtract = today.weekday()
+            monday = today - timedelta(days=days_to_subtract)
+            formatted_monday = monday.strftime('%Y-%m-%d')
+            from_date = formatted_monday
+            end_date = datetime.now().strftime('%Y-%m-%d')
+
+            user = await get_user_os_bet(end_date, info)
+            # user = await get_user(from_date, formatted_yesterday, (datetime.now() - timedelta(days=2)).strftime('%Y-%m-%d'), info)
+            return await send_table_user_os_bet_image(user)
+        elif detect_member_info_os_number(processed):
+            return 'Không đúng cú pháp. Chúc anh một ngày tốt lành.'
+            yesterday = datetime.now() - timedelta(days=1)
+            formatted_yesterday = yesterday.strftime('%Y-%m-%d')
+
+            today = datetime.now()
+            # Calculate the number of days to subtract to get to Monday
+            # weekday() returns 0 for Monday, 1 for Tuesday, and so on
+            days_to_subtract = today.weekday()
+            monday = today - timedelta(days=days_to_subtract)
+            formatted_monday = monday.strftime('%Y-%m-%d')
+            from_date = formatted_monday
+            end_date = datetime.now().strftime('%Y-%m-%d')
+
+            user = await get_user_os_number(end_date, info)
+            # user = await get_user(from_date, formatted_yesterday, (datetime.now() - timedelta(days=2)).strftime('%Y-%m-%d'), info)
+            return await send_table_user_os_bet_image(user)
         else:
             return 'Không đúng cú pháp. Chúc anh một ngày tốt lành.'
 
@@ -180,7 +214,14 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     print('Bot:', response)
 
-    if '<html>' in response:
+    if '<tr><th>STT.</th><th>Thể loại</th><th>Số</th><th>Điểm</th><th>Tổng</th></tr>' in response:
+        pdfkit.from_string(response, f'{message_id}.pdf')
+        with open(f'{message_id}.pdf', 'rb') as file:
+            await update.message.reply_document(file)
+
+        # Delete the image after sending
+        os.remove(f'{message_id}.pdf')
+    elif '<html>' in response:
         imgkit.from_string(response, f'{message_id}.jpg', options=options)
         with open(f'{message_id}.jpg', 'rb') as image:
             await update.message.reply_photo(image)

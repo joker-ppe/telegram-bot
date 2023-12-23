@@ -59,7 +59,19 @@ def detect_member(text):
     return detect_action(text, words)
 
 def detect_member_info(text):
-    words = ['thông tin', 'thong tin', 'ttin', 'info']
+    words = ['thông tin', 'thong tin', 'ttin', 'info', 'infor']
+    return detect_action(text, words)
+
+def detect_member_info_os_number(text):
+    words = ['os số', 'os so', 'os number',]
+    return detect_action(text, words)
+
+def detect_member_info_os_bet(text):
+    words = ['os phiếu cược', 'os phieu cuoc', 'os bet',]
+    return detect_action(text, words)
+
+def detect_report_number(text):
+    words = ['báo cáo số', 'bao cao so']
     return detect_action(text, words)
 
 #////////////////////////////////////////////////////////////////
@@ -67,7 +79,7 @@ def detect_yesterday(text):
     words = ['hôm qua', 'hom qua', 'hqua', 'hqa']
     return detect_action(text, words)
 def detect_today(text):
-    words = ['hôm nay', 'hom nay', 'hnay', 'member']
+    words = ['hôm nay', 'hom nay', 'hnay']
     return detect_action(text, words)
 def detect_this_week(text):
     words = ['tuần này', 'tuan nay']
@@ -83,4 +95,4 @@ def detect_action(text, words):
 def word_in_text(word, text):
     # This regular expression pattern looks for the whole word
     pattern = r'\b' + re.escape(word) + r'\b'
-    return bool(re.search(pattern, text, re.IGNORECASE))
+    return bool(re.search(pattern, text.replace('.',''), re.IGNORECASE))
