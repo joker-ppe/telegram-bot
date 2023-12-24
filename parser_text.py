@@ -254,18 +254,20 @@ async def send_table_user_image(json_data):
     html_table += f"<tr><td>Line</td><td style='text-align: center;'>{json_data['line']}</td></tr>"
 
     if int(json_data['level']) != 5:
-        for index, (name) in enumerate(json_data['children'], start=1):
+        for index, (children) in enumerate(json_data['list_children'], start=1):
+            name = children['full_name']
+            outstanding = "{:,}".format(round(children['outstanding']))
             if index == 1:
                 html_table += f"""
     <tr>
-        <td rowspan='{len(json_data['children'])}'>Tuyến dưới</td>
-        <td style='text-align: left;'>{name}</td>
+        <td rowspan='{len(json_data['list_children'])}'>Tuyến dưới</td>
+        <td style='text-align: left;'>{name}<br/>{outstanding}</td>
     </tr>
     """             
             else:
                 html_table += f"""
     <tr>
-        <td style='text-align: left;'>{name}</td>
+        <td style='text-align: left;'>{name}<br/>{outstanding}</td>
     </tr>
     """            
 
@@ -277,6 +279,23 @@ async def send_table_user_image(json_data):
     html_table += f"<tr><td>Thắng thua tuần này</td><td>{profit}</td></tr>"
     outstanding = "{:,}".format(round(json_data['outstanding']))
     html_table += f"<tr><td>Outstanding</td><td>{outstanding}</td></tr>"
+
+    data_bet_keys = json_data['data_bet'].keys()
+
+    # print(json_data['data_bet'])
+    # print(data_bet_keys)
+
+    if (len(data_bet_keys) > 0 and int(json_data['outstanding']) != 0):
+        for index, (key) in enumerate(data_bet_keys, start=0):
+            game_name = get_type_game(int(key))
+            point = "{:,}".format(round(json_data['data_bet'][key]['point']))
+            amount = "{:,}".format(round(json_data['data_bet'][key]['amount']))
+            if index == 0:
+                html_table += f"<tr><td rowspan='{len(data_bet_keys)}'>Cược</td><td style='text-align: left;'><strong>{game_name}</strong><br/>{point} điểm<br/>{amount}</td></tr>"
+            else:
+                html_table += f"<tr><td style='text-align: left;'><strong>{game_name}</strong><br/>{point} điểm<br/>{amount}</td></tr>"
+
+
     html_table += "</table>"
     # table bet record
     
@@ -494,6 +513,9 @@ async def send_table_user_os_bet_image(json_data):
 
     if int(json_data['level']) != 5:
         return f"Tài khoản {json_data['full_name']} không phải là Hội viên. Vui lòng kiểm tra lại."
+    
+    if (len(json_data['data']) == 0):
+            return f"Tài khoản {json_data['full_name']} không có dữ liệu Outstanding hôm nay."
 
     # Xây dựng bảng HTML
     html_table = "<html><body>"
@@ -535,11 +557,9 @@ async def send_table_user_os_bet_image(json_data):
     
     if (json_data['outstanding'] != 0) and (int(json_data['level']) == 5):
         html_table += "<table>"
-        html_table += f"<caption style='color: red;'>Outstanding {json_data['full_name']}: {json_data['outstanding']:,}</caption>"
+        html_table += f"<caption style='color: red; font-size: 35px; margin-bottom: 10px;'>Outstanding {json_data['full_name']}: {json_data['outstanding']:,}</caption>"
         html_table += f"<tr><th>STT.</th><th>Thể loại</th><th>Số</th><th>Điểm</th><th>Tổng</th></tr>"
 
-        if (len(json_data['data']) == 0):
-            return f"Tài khoản {json_data['full_name']} không có dữ liệu Outstanding hôm nay."
         
         # print(json_data['data'])
 

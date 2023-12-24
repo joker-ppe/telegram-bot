@@ -181,7 +181,16 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         -1002036601443
     ]
 
-    message_to_delete = await context.bot.send_message(chat_id, f'Đang tổng hợp dữ liệu. Anh {update.effective_user.first_name} {update.effective_user.last_name} đợi em chút nhé')
+    first_name = update.effective_user.first_name
+    last_name = update.effective_user.last_name
+    full_name = f'{first_name} {last_name}'
+
+    if first_name is None:
+        full_name = f'{last_name}'
+    elif last_name is None:
+        full_name = f'{first_name}'
+
+    message_to_delete = await context.bot.send_message(chat_id, f'Đang tổng hợp dữ liệu. Anh {full_name} đợi em chút nhé')
     message_id = message_to_delete.message_id
 
     if message_type == 'supergroup':
@@ -215,19 +224,19 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     print('Bot:', response)
 
     if '<tr><th>STT.</th><th>Thể loại</th><th>Số</th><th>Điểm</th><th>Tổng</th></tr>' in response:
-        pdfkit.from_string(response, f'{message_id}.pdf')
-        with open(f'{message_id}.pdf', 'rb') as file:
+        pdfkit.from_string(response, f'{message_id}{chat_id}.pdf')
+        with open(f'{message_id}{chat_id}.pdf', 'rb') as file:
             await update.message.reply_document(file)
 
         # Delete the image after sending
-        os.remove(f'{message_id}.pdf')
+        os.remove(f'{message_id}{chat_id}.pdf')
     elif '<html>' in response:
-        imgkit.from_string(response, f'{message_id}.jpg', options=options)
-        with open(f'{message_id}.jpg', 'rb') as image:
+        imgkit.from_string(response, f'{message_id}{chat_id}.jpg', options=options)
+        with open(f'{message_id}{chat_id}.jpg', 'rb') as image:
             await update.message.reply_photo(image)
 
         # Delete the image after sending
-        os.remove(f'{message_id}.jpg')
+        os.remove(f'{message_id}{chat_id}.jpg')
     else:
         await update.message.reply_html(response)
 
