@@ -95,16 +95,32 @@ async def handle_response(text: str) -> str:
         return check_response(f'Thầu ngoài {time_text}:', bid_outside)
     elif detect_super(text_full):
         supers = await get_supers(from_date, end_date)
-        return await send_table_image(supers, time_text, 'Cổ Đông')
+        tmp_text = text_full.split(' ')
+        threshold = 0
+        if len(tmp_text) > 0:
+            threshold = tmp_text[len(tmp_text)-1]
+        return await send_table_image(supers, time_text, 'Cổ Đông', threshold)
     elif detect_master(text_full):
+        threshold = 0
+        tmp_text = text_full.split(' ')
+        if len(tmp_text) > 0:
+            threshold = tmp_text[len(tmp_text)-1]
         masters = await get_masters(from_date, end_date)
-        return await send_table_image(masters, time_text, 'Tổng Đại Lý')
+        return await send_table_image(masters, time_text, 'Tổng Đại Lý', threshold)
     elif detect_agent(text_full):
+        threshold = 0
+        tmp_text = text_full.split(' ')
+        if len(tmp_text) > 0:
+            threshold = tmp_text[len(tmp_text)-1]
         agents = await get_agents(from_date, end_date)
-        return await send_table_image(agents, time_text, 'Đại Lý')
+        return await send_table_image(agents, time_text, 'Đại Lý', threshold)
     elif detect_member(text_full):
+        threshold = 0
+        tmp_text = text_full.split(' ')
+        if len(tmp_text) > 0:
+            threshold = tmp_text[len(tmp_text)-1]
         members = await get_members(from_date, end_date)
-        return await send_table_image(members, time_text, 'Hội Viên')
+        return await send_table_image(members, time_text, 'Hội Viên', threshold)
     else:
         text_full = text_full.split(' ')
 

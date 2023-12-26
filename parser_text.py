@@ -33,15 +33,24 @@ async def send_table(json_data, time_text, role='Cổ Đông'):
     return f'<pre>{table}</pre>'
 
 
-async def send_table_image(json_data, time_text, role='Cổ Đông'):
+async def send_table_image(json_data, time_text, role='Cổ Đông', threshold=0):
 
     if (json_data == "***"):
         return "Không tìm thấy thông tin. Anh vui lòng kiểm tra và thử lại."
 
     # print(json_data)
+    title = f"<caption>Báo cáo {role} {time_text}</caption>"
+
+    if threshold.isdecimal() == False:
+        threshold = 0
+    else:
+        threshold = int(threshold)
+        title = f"<caption>Báo cáo {role} {time_text} đạt ngưỡng {(threshold * 1000000):,}</caption>"
+
+    print('Threshold: '+ str(threshold))
 
     data = [(item["full_name"], item["profit"])
-            for item in json_data if item["profit"] != 0]
+            for item in json_data if (item["profit"] != 0 and abs(item["profit"]) >= (threshold * 1000000))]
 
     # print(data)
 
@@ -49,6 +58,9 @@ async def send_table_image(json_data, time_text, role='Cổ Đông'):
         return "Không tìm thấy thông tin. Anh vui lòng kiểm tra và thử lại."
 
     data = sorted(data, key=lambda x: x[1], reverse=True)
+
+    
+
 
     total = sum(int(item[1]) for item in data)
 
@@ -87,7 +99,7 @@ async def send_table_image(json_data, time_text, role='Cổ Đông'):
 </head>                    
 """
     html_table += "<table>"
-    html_table += f"<caption>Báo cáo {role} {time_text}</caption>"
+    html_table += title
     html_table += "<tr><th>STT.</th><th>{}</th><th>Thắng thua</th></tr>".format(role)
 
     for index, (full_name, profit) in enumerate(data, start=1):
@@ -648,18 +660,18 @@ def get_type_game(type):
     elif type == 1:
         return 'Đề đuôi'
     elif type == 2:
-        return 'Đề giải 1 đầu'
+        return 'Đề đầu giải 1'
     elif type == 3:
-        return 'Đề giải 1 đuôi'
+        return 'Đề đuôi giải 1'
     elif type == 4:
         return 'Lô đầu'
     elif type == 5:
         return 'Lô đuôi'
     elif type == 6:
-        return 'Lô xiên 2 đuôi'
+        return 'Lô đuôi xiên 2'
     elif type == 7:
-        return 'Lô xiên 3 đuôi'
+        return 'Lô đuôi xiên 3'
     elif type == 8:
-        return 'Lô xiên 4 đuôi'
+        return 'Lô đuôi xiên 4'
     else:
         return 'none'
