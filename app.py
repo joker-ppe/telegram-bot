@@ -210,7 +210,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     message_id = message_to_delete.message_id
 
     if message_type == 'supergroup':
-        print(chat_id)
+        # print(chat_id)
 
         if chat_id in group_white_list:
             if BOT_USER_NAME in text:
@@ -253,6 +253,9 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         # Delete the image after sending
         os.remove(f'{message_id}{chat_id}.jpg')
+    elif 'Không đúng cú pháp. Chúc anh một ngày tốt lành.' in response:
+        # do nothing
+        print('hóng')
     else:
         await update.message.reply_html(response)
 
