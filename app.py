@@ -14,11 +14,14 @@ from type_action import *
 TOKEN: Final = '6695572072:AAGxx6Rn8wyTshwhFfOnfSY6AKfhSvJIa6o'
 BOT_USER_NAME: Final = '@em_loc_phat_bot'
 
+# TOKEN: Final = '6694721541:AAGnKKDpDoqkQOAMOMQozKwinBpt-awUCvA'
+# BOT_USER_NAME: Final = '@HauDueLPBot'
+
 # Command
 
 options = {
     'format': 'jpg',
-    'width': '500',
+    'width': '600',
     # Adjust the quality (0-100). Lower might reduce clarity.
     'quality': '100',
     # Adjust width as per requirement

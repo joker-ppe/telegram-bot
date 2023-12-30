@@ -51,18 +51,27 @@ async def send_table_image(json_data, time_text, role='Cổ Đông', threshold=0
 
     data = [(item["full_name"], item["profit"])
             for item in json_data if (item["profit"] != 0 and abs(item["profit"]) >= (threshold * 1000000))]
+    
+    if role != 'Hội Viên':
+        data = [(item["full_name"], item["bidPercent"], item["profit"])
+            for item in json_data if (item["profit"] != 0 and abs(item["profit"]) >= (threshold * 1000000))]
 
     # print(data)
 
     if (len(data) == 0):
         return "Không tìm thấy thông tin. Anh vui lòng kiểm tra và thử lại."
+    
+    total = sum(int(item[1]) for item in data)
 
-    data = sorted(data, key=lambda x: x[1], reverse=True)
+    if role != 'Hội Viên':
+        data = sorted(data, key=lambda x: x[2], reverse=True)
+        total = sum(int(item[2]) for item in data)
+    else:
+        data = sorted(data, key=lambda x: x[1], reverse=True)
+        
+
 
     
-
-
-    total = sum(int(item[1]) for item in data)
 
     # Xây dựng bảng HTML
     html_table = "<html><body>"
@@ -82,10 +91,6 @@ async def send_table_image(json_data, time_text, role='Cổ Đông', threshold=0
         background-color: #faebd7;
       }
 
-      table td:nth-child(3){
-        text-align: right;
-      }
-
       table {
         margin-left: auto;
         margin-right: auto;
@@ -100,13 +105,20 @@ async def send_table_image(json_data, time_text, role='Cổ Đông', threshold=0
 """
     html_table += "<table>"
     html_table += title
-    html_table += "<tr><th>STT.</th><th>{}</th><th>Thắng thua</th></tr>".format(role)
 
-    for index, (full_name, profit) in enumerate(data, start=1):
-        html_table += f"<tr><td>{index}</td><td>{full_name}</td><td>{profit:,}</td></tr>"
-
+    colspan = 2
+    if role == 'Hội Viên':
+        html_table += "<tr><th>STT.</th><th>{}</th><th>Thắng thua</th></tr>".format(role)
+        for index, (full_name, profit) in enumerate(data, start=1):
+            html_table += f"<tr><td>{index}</td><td>{full_name}</td><td style='text-align: right;'>{profit:,}</td></tr>"
+    else:
+        colspan = 3
+        html_table += "<tr><th>STT.</th><th>{}</th><th>Thầu</th><th>Thắng thua</th></tr>".format(role)
+        for index, (full_name, bid_percent, profit) in enumerate(data, start=1):
+            html_table += f"<tr><td>{index}</td><td>{full_name}</td><td style='text-align: right;'>{bid_percent}</td><td style='text-align: right;'>{profit:,}</td></tr>"
+       
     # Thêm hàng tổng
-    html_table += f"<tr style='font-weight: bold;'><td colspan='2' style='text-align: center;'>Tổng</td><td style='text-align: right;'>{total:,}</td></tr>"
+    html_table += f"<tr style='font-weight: bold;'><td colspan='{colspan}' style='text-align: center;'>Tổng</td><td style='text-align: right;'>{total:,}</td></tr>"
 
     html_table += "</table>"
     html_table += "</body></html>"
