@@ -74,7 +74,10 @@ async def handle_response(text: str) -> str:
         time_text = 'tuần này'
 
     # call api
-    if detect_os_cong_ty(text_full):
+    if detect_report_xsmb(text_full):
+        report = await get_report_xsmb()
+        return report
+    elif detect_os_cong_ty(text_full):
         date = datetime.now().strftime('%Y-%m-%d')
         os = await get_user_os(date, date, 'admin')
         return check_response(f'Outstanding hôm nay:', os)
@@ -197,7 +200,8 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     group_white_list = [
         -1002044356915,
-        -1002036601443
+        -1002036601443,
+        -1002109063811
     ]
 
     first_name = update.effective_user.first_name
@@ -213,7 +217,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     message_id = message_to_delete.message_id
 
     if message_type == 'supergroup':
-        # print(chat_id)
+        print(chat_id)
 
         if chat_id in group_white_list:
             if BOT_USER_NAME in text:
@@ -241,7 +245,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     # response: str = await handle_response(text)
 
-    print('Bot:', response)
+    # print('Bot:', response)
 
     if '<tr><th>STT.</th><th>Thể loại</th><th>Số</th><th>Điểm</th><th>Tổng</th></tr>' in response:
         pdfkit.from_string(response, f'{message_id}{chat_id}.pdf')

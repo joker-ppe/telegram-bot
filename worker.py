@@ -1,6 +1,10 @@
 import requests
 import aiohttp
 import asyncio
+from cloudscraper import CloudScraper
+from bs4 import BeautifulSoup
+
+from style import get_style
 
 
 baseUrl = "http://3.1.5.108:3004"
@@ -63,6 +67,21 @@ async def get_user_profit(from_date, end_date, user_name):
 async def get_user_os(from_date, end_date, user_name):
     response = await get_user_data(from_date, end_date, user_name, filter='outstanding')
     return response
+
+async def get_report_xsmb():
+    url = 'https://xoso.com.vn/'
+    scraper = CloudScraper()
+    response = scraper.get(url)
+    soup = BeautifulSoup(response.text, 'lxml')
+
+    table = soup.find_all(attrs={'class': 'table-result table-xsmb'})[0]
+
+
+    html_table = "<html><body>"
+    html_table += get_style()
+    html_table += table.prettify()
+    html_table += "</body></html>"
+    return html_table
 
 async def get_user_outside_bid(from_date, end_date):
     url = f'{baseUrl}/report/bidOutside?startDate={from_date}&endDate={end_date}'
