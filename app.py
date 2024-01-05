@@ -250,12 +250,20 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         # Delete the image after sending
         os.remove(f'{message_id}{chat_id}.pdf')
     elif '<html>' in response:
-        imgkit.from_string(response, f'{message_id}{chat_id}.jpg', options=options)
-        with open(f'{message_id}{chat_id}.jpg', 'rb') as image:
-            await update.message.reply_photo(image)
+        try:
+            imgkit.from_string(response, f'{message_id}{chat_id}.jpg', options=options)
+            with open(f'{message_id}{chat_id}.jpg', 'rb') as image:
+                await update.message.reply_photo(image)
 
-        # Delete the image after sending
-        os.remove(f'{message_id}{chat_id}.jpg')
+            # Delete the image after sending
+            os.remove(f'{message_id}{chat_id}.jpg')
+        except Exception:
+            pdfkit.from_string(response, f'{message_id}{chat_id}.pdf')
+            with open(f'{message_id}{chat_id}.pdf', 'rb') as file:
+                await update.message.reply_document(file)
+
+            # Delete the image after sending
+            os.remove(f'{message_id}{chat_id}.pdf')
     elif 'Không đúng cú pháp. Chúc anh một ngày tốt lành.' in response:
         # do nothing
         print('hóng')
