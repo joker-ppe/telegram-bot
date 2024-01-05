@@ -77,7 +77,8 @@ async def send_table_image(json_data, time_text, role='Cổ Đông', threshold=0
     html_table = "<html><body>"
     html_table += """
 <head>
-    <style>
+    <meta charset="UTF-8">
+<style>
         td,
       th,
       tr,
@@ -179,7 +180,8 @@ async def send_table_os_image(json_data, role='Cổ Đông'):
     html_table = "<html><body>"
     html_table += """
 <head>
-    <style>
+    <meta charset="UTF-8">
+<style>
         td,
       th,
       tr,
@@ -241,7 +243,8 @@ async def send_table_user_image(json_data):
     html_table = "<html><body>"
     html_table += """
 <head>
-    <style>
+    <meta charset="UTF-8">
+<style>
         td,
       th,
       tr,
@@ -346,7 +349,8 @@ async def send_table_user_os_number_image(json_data):
     html_table = "<html><body>"
     html_table += """
 <head>
-    <style>
+    <meta charset="UTF-8">
+<style>
         td,
       th,
       tr,
@@ -443,7 +447,8 @@ async def send_table_number_image(json_data):
     html_table = "<html><body>"
     html_table += """
 <head>
-    <style>
+    <meta charset="UTF-8">
+<style>
         td,
       th,
       tr,
@@ -546,7 +551,7 @@ async def send_table_user_os_bet_image(json_data):
     html_table += """
 <head>
     <meta charset="UTF-8">
-    <style>
+<style>
         td,
       th,
       tr,
