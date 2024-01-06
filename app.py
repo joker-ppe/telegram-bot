@@ -1,15 +1,20 @@
 # import everything
 import asyncio
 import os
+import random
+import threading
+import time
 import imgkit, pdfkit
 from datetime import datetime, timedelta
 from typing import Final
+import schedule
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 
 from worker import *
 from parser_text import *
 from type_action import *
+import schedule_action
 
 TOKEN: Final = '6695572072:AAGxx6Rn8wyTshwhFfOnfSY6AKfhSvJIa6o'
 BOT_USER_NAME: Final = '@em_loc_phat_bot'
@@ -282,6 +287,14 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
     print(f'Update {update} caused error {context.error}')
 
+
+
+# Running the scheduler in a separate thread
+def run_scheduler():
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
+
 if __name__ == '__main__':
     print("App starting...")
     app = Application.builder().token(TOKEN).build()
@@ -293,6 +306,15 @@ if __name__ == '__main__':
     app.add_handler(MessageHandler(filters.TEXT, handle_message))
 
     app.add_error_handler(error)
+
+    # print("App setting up schedules...")
+
+    # Set up schedules
+    # schedule_action.setup_schedules_send_report(app, 18, 36)
+    # schedule_action.setup_schedules_send_message(app, 12, 2, 'master hom nay')
+
+    # Start the scheduler thread
+    # threading.Thread(target=run_scheduler, daemon=True).start()
 
     print("App running...")
 
