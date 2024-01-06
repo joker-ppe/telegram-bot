@@ -1,9 +1,10 @@
 aiohttp==3.9.1
+beautifulsoup4==4.12.2
+cloudscraper==1.2.71
 imgkit==1.2.3
 pdfkit==1.0.0
 prettytable==3.9.0
 python-telegram-bot==20.7
+pytz==2023.3.post1
 Requests==2.31.0
-cloudscraper==1.2.71
-beautifulsoup4==4.12.2
-lxml==4.9.3
+schedule==1.2.1

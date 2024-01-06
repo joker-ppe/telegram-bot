@@ -1,20 +1,17 @@
 # import everything
 import asyncio
 import os
-import random
-import threading
-import time
 import imgkit, pdfkit
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, time
 from typing import Final
-import schedule
+import pytz
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
+from schedule_action import send_notification, send_notification_message
 
 from worker import *
 from parser_text import *
 from type_action import *
-import schedule_action
 
 TOKEN: Final = '6695572072:AAGxx6Rn8wyTshwhFfOnfSY6AKfhSvJIa6o'
 BOT_USER_NAME: Final = '@em_loc_phat_bot'
@@ -204,9 +201,9 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     print('Input: ' + text)
 
     group_white_list = [
-        -1002044356915,
-        -1002036601443,
-        -1002109063811
+        -1002044356915, # hey
+        -1002036601443, # loc phat
+        -1002109063811 # hau due
     ]
 
     first_name = update.effective_user.first_name
@@ -290,10 +287,12 @@ async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 # Running the scheduler in a separate thread
-def run_scheduler():
-    while True:
-        schedule.run_pending()
-        time.sleep(1)
+def schedule_async_job(func, *args):
+    print("App running up schedules...")
+    asyncio.create_task(func(*args))
+
+async def callback_minute(context: ContextTypes.DEFAULT_TYPE):
+    await context.bot.send_message(chat_id='-1002109063811', text='One message every minute')
 
 if __name__ == '__main__':
     print("App starting...")
@@ -307,15 +306,19 @@ if __name__ == '__main__':
 
     app.add_error_handler(error)
 
-    # print("App setting up schedules...")
+    print("App setting up schedules...")
 
-    # Set up schedules
-    # schedule_action.setup_schedules_send_report(app, 18, 36)
-    # schedule_action.setup_schedules_send_message(app, 12, 2, 'master hom nay')
+    # Set up APScheduler
+    job_queue = app.job_queue
 
-    # Start the scheduler thread
-    # threading.Thread(target=run_scheduler, daemon=True).start()
+    # job_minute = job_queue.run_repeating(callback_minute, interval=60, first=10)
+
+    local_timezone = pytz.timezone('Asia/Bangkok')
+    target_time = time(18, 36, 10, tzinfo=local_timezone)  # Set your time here
+    job_daily1 = job_queue.run_daily(send_notification, time=target_time)
+    job_daily2 = job_queue.run_daily(send_notification_message, time=target_time)
 
     print("App running...")
 
+     # Run the bot
     app.run_polling(poll_interval=1)

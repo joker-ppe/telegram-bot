@@ -33,7 +33,7 @@ async def send_table(json_data, time_text, role='Cổ Đông'):
     return f'<pre>{table}</pre>'
 
 
-async def send_table_image(json_data, time_text, role='Cổ Đông', threshold=0):
+async def send_table_image(json_data, time_text = 'tuần này', role='Cổ Đông', threshold='threshold'):
 
     if (json_data == "***"):
         return "Không tìm thấy thông tin. Anh vui lòng kiểm tra và thử lại."
@@ -101,6 +101,14 @@ async def send_table_image(json_data, time_text, role='Cổ Đông', threshold=0
       body {
         font-family: Arial, Helvetica, sans-serif;
       }
+
+      .win {
+        color: blue;
+      }
+
+      .lose {
+        color: red;
+      }
     </style>
 </head>                    
 """
@@ -111,15 +119,24 @@ async def send_table_image(json_data, time_text, role='Cổ Đông', threshold=0
     if role == 'Hội Viên':
         html_table += "<tr><th>STT.</th><th>{}</th><th>Thắng thua</th></tr>".format(role)
         for index, (full_name, profit) in enumerate(data, start=1):
-            html_table += f"<tr><td>{index}</td><td>{full_name}</td><td style='text-align: right;'>{profit:,}</td></tr>"
+            if profit > 0:
+                html_table += f"<tr><td>{index}</td><td>{full_name}</td><td class='win' style='text-align: right;'>{profit:,}</td></tr>"
+            else:
+                html_table += f"<tr><td>{index}</td><td>{full_name}</td><td class='lose' style='text-align: right;'>{profit:,}</td></tr>"
     else:
         colspan = 3
         html_table += "<tr><th>STT.</th><th>{}</th><th>Thầu</th><th>Thắng thua</th></tr>".format(role)
         for index, (full_name, bid_percent, profit) in enumerate(data, start=1):
-            html_table += f"<tr><td>{index}</td><td>{full_name}</td><td style='text-align: right;'>{bid_percent}</td><td style='text-align: right;'>{profit:,}</td></tr>"
+            if profit > 0:
+                html_table += f"<tr><td>{index}</td><td>{full_name}</td><td style='text-align: right;'>{bid_percent}</td><td class='win' style='text-align: right;'>{profit:,}</td></tr>"
+            else:
+                html_table += f"<tr><td>{index}</td><td>{full_name}</td><td style='text-align: right;'>{bid_percent}</td><td class='lose' style='text-align: right;'>{profit:,}</td></tr>"
        
     # Thêm hàng tổng
-    html_table += f"<tr style='font-weight: bold;'><td colspan='{colspan}' style='text-align: center;'>Tổng</td><td style='text-align: right;'>{total:,}</td></tr>"
+    if total > 0:
+        html_table += f"<tr style='font-weight: bold;'><td colspan='{colspan}' style='text-align: center;'>Tổng</td><td class='win' style='text-align: right;'>{total:,}</td></tr>"
+    else:
+        html_table += f"<tr style='font-weight: bold;'><td colspan='{colspan}' style='text-align: center;'>Tổng</td><td class='lose' style='text-align: right;'>{total:,}</td></tr>"
 
     html_table += "</table>"
     html_table += "</body></html>"
@@ -271,6 +288,14 @@ async def send_table_user_image(json_data):
       body {
         font-family: Arial, Helvetica, sans-serif;
       }
+
+      .win {
+        color: blue;
+      }
+
+      .lose {
+        color: red;
+      }
     </style>
 </head>                    
 """
@@ -284,26 +309,48 @@ async def send_table_user_image(json_data):
         for index, (children) in enumerate(json_data['list_children'], start=1):
             name = children['full_name']
             outstanding = "{:,}".format(round(children['outstanding']))
+            profit = "{:,}".format(round(children['profit']))
+            
+            profit_item = f"""
+            <span class='lose'>{profit}</span>               
+"""
+            if round(children['profit']) > 0:
+                profit_item = f"""
+            <span class='win'>{profit}</span>               
+"""
             if index == 1:
                 html_table += f"""
     <tr>
         <td rowspan='{len(json_data['list_children'])}'>Tuyến dưới</td>
-        <td style='text-align: left;'>{name}<br/>{outstanding}</td>
+        <td style='text-align: left;'>{name}<br/>wl: {profit_item}<br/>os: {outstanding}</td>
     </tr>
     """             
             else:
                 html_table += f"""
     <tr>
-        <td style='text-align: left;'>{name}<br/>{outstanding}</td>
+        <td style='text-align: left;'>{name}<br/>wl: {profit_item}<br/>os: {outstanding}</td>
     </tr>
     """            
 
     yesterdayData = "{:,}".format(round(json_data['yesterdayData']))
-    html_table += f"<tr><td>Thắng thua hôm qua</td><td>{yesterdayData}</td></tr>"
+    if round(json_data['yesterdayData']) > 0:
+        html_table += f"<tr><td>Thắng thua hôm qua</td><td class='win'>{yesterdayData}</td></tr>"
+    else:
+        html_table += f"<tr><td>Thắng thua hôm qua</td><td class='lose'>{yesterdayData}</td></tr>"
+    
     todayData = "{:,}".format(round(json_data['todayData']))
-    html_table += f"<tr><td>Thắng thua hôm nay</td><td>{todayData}</td></tr>"
+    if round(json_data['todayData']) > 0:
+        html_table += f"<tr><td>Thắng thua hôm nay</td><td class='win'>{todayData}</td></tr>"
+    else:
+        html_table += f"<tr><td>Thắng thua hôm nay</td><td class='lose'>{todayData}</td></tr>"
+
     profit = "{:,}".format(round(json_data['profit']))
-    html_table += f"<tr><td>Thắng thua tuần này</td><td>{profit}</td></tr>"
+    if round(json_data['profit']) > 0:
+        html_table += f"<tr><td>Thắng thua tuần này</td><td class='win'>{profit}</td></tr>"
+    else:
+        html_table += f"<tr><td>Thắng thua tuần này</td><td class='lose'>{profit}</td></tr>"
+
+
     outstanding = "{:,}".format(round(json_data['outstanding']))
     html_table += f"<tr><td>Outstanding</td><td>{outstanding}</td></tr>"
 
