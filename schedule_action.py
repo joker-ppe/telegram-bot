@@ -66,17 +66,11 @@ async def send_notification_message(app: ContextTypes.DEFAULT_TYPE):
     
     print(f'Send daily report master to {chat_id}')
 
-    today = datetime.now()
-    # Calculate the number of days to subtract to get to Monday
-    # weekday() returns 0 for Monday, 1 for Tuesday, and so on
-    days_to_subtract = today.weekday()
-    monday = today - timedelta(days=days_to_subtract)
-    formatted_monday = monday.strftime('%Y-%m-%d')
-    from_date = formatted_monday
-    end_date = datetime.now().strftime('%Y-%m-%d')
+    from_date = datetime.now().strftime('%Y-%m-%d')
+    end_date = from_date
 
     masters = await get_masters(from_date, end_date)
-    response = await send_table_image(masters, 'tuần này', 'Tổng Đại Lý')
+    response = await send_table_image(masters, 'hôm nay', 'Tổng Đại Lý')
     message_id = random.randint(1, 1000)
 
     try:
