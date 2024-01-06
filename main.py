@@ -1,5 +1,5 @@
 import asyncio
-import datetime
+from datetime import datetime, timedelta
 import os
 import random
 import sys
@@ -18,14 +18,14 @@ async def send_message() -> bool:
     chat_id = '-1002109063811'
     print(f'Send Scheduled notification to {chat_id}')
 
-    yesterday = datetime.now() - datetime.timedelta(days=1)
+    yesterday = datetime.now() - timedelta(days=1)
     formatted_yesterday = yesterday.strftime('%Y-%m-%d')
 
     today = datetime.now()
     # Calculate the number of days to subtract to get to Monday
     # weekday() returns 0 for Monday, 1 for Tuesday, and so on
     days_to_subtract = today.weekday()
-    monday = today - datetime.timedelta(days=days_to_subtract)
+    monday = today - timedelta(days=days_to_subtract)
     formatted_monday = monday.strftime('%Y-%m-%d')
     from_date = formatted_monday
     end_date = datetime.now().strftime('%Y-%m-%d')
