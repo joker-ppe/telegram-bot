@@ -12,12 +12,7 @@ from schedule_action import send_notification, send_notification_message
 from worker import *
 from parser_text import *
 from type_action import *
-
-TOKEN: Final = '6695572072:AAGxx6Rn8wyTshwhFfOnfSY6AKfhSvJIa6o'
-BOT_USER_NAME: Final = '@em_loc_phat_bot'
-
-# TOKEN: Final = '6694721541:AAGnKKDpDoqkQOAMOMQozKwinBpt-awUCvA'
-# BOT_USER_NAME: Final = '@HauDueLPBot'
+from settings import *
 
 # Command
 
@@ -32,7 +27,8 @@ options = {
 
 
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text('Hello, Em là Lộc Phát đây')
+    chat_id = update.effective_chat.id
+    await update.message.reply_text(f'{chat_id}')
 
 
 async def custom_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -314,9 +310,10 @@ if __name__ == '__main__':
     # job_minute = job_queue.run_repeating(callback_minute, interval=60, first=10)
 
     local_timezone = pytz.timezone('Asia/Bangkok')
-    target_time = time(18, 36, 10, tzinfo=local_timezone)  # Set your time here
-    job_daily1 = job_queue.run_daily(send_notification, time=target_time)
-    job_daily2 = job_queue.run_daily(send_notification_message, time=target_time)
+    target_time_admin_report = time(18, 37, 10, tzinfo=local_timezone)  # Set your time here
+    job_daily1 = job_queue.run_daily(send_notification, time=target_time_admin_report)
+    target_time_master_report = time(18, 39, 10, tzinfo=local_timezone)  # Set your time here
+    job_daily2 = job_queue.run_daily(send_notification_message, time=target_time_master_report)
 
     print("App running...")
 
