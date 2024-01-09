@@ -5,11 +5,10 @@ import os
 import random
 from parser_text import send_table_image, send_table_user_image
 import schedule
+from settings import GROUP_CHAT_ID
 from worker import get_masters, get_user
 import imgkit, pdfkit
 from telegram.ext import ContextTypes
-
-GROUP_CHAT_ID = '-1002044356915'
 
 options = {
     'format': 'jpg',
@@ -52,7 +51,6 @@ async def send_notification(app: ContextTypes.DEFAULT_TYPE):
         pdfkit.from_string(response, f'{message_id}{chat_id}.pdf')
         with open(f'{message_id}{chat_id}.pdf', 'rb') as file:
             await app.bot.send_document(chat_id=chat_id, document=file)
-
         # Delete the image after sending
         os.remove(f'{message_id}{chat_id}.pdf')
 
@@ -83,7 +81,6 @@ async def send_notification_message(app: ContextTypes.DEFAULT_TYPE):
         pdfkit.from_string(response, f'{message_id}{chat_id}.pdf')
         with open(f'{message_id}{chat_id}.pdf', 'rb') as file:
             await app.bot.send_document(chat_id=chat_id, document=file)
-
         # Delete the image after sending
         os.remove(f'{message_id}{chat_id}.pdf')
 
