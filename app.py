@@ -310,7 +310,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # message_to_delete = await context.bot.send_message(chat_id, f'Đang tổng hợp dữ liệu. Anh {full_name} đợi em chút nhé')
     message_id = ''
 
-    if message_type == 'supergroup':
+    if message_type == 'supergroup' or message_type == 'group':
         print(chat_id)
 
         if chat_id in group_white_list:
@@ -410,7 +410,7 @@ if __name__ == '__main__':
     target_time_admin_report = time(18, 37, 10, tzinfo=local_timezone)  # Set your time here
     job_daily1 = job_queue.run_daily(send_notification, time=target_time_admin_report)
 
-    second = random.randint(1, 60)
+    second = random.randint(1, 59)
     target_time_master_report = time(18, 38, second, tzinfo=local_timezone)  # Set your time here
     job_daily2 = job_queue.run_daily(send_notification_message, time=target_time_master_report)
 
