@@ -332,7 +332,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 text: str = text.replace(BOT_USER_NAME, '').strip()
                 # response: str = await handle_response(new_text)
             else:
-                print('@' + update.effective_user.username)
+                print('@' + str(update.effective_user.username))
                 # return
 
             response, message_id = await handle_response(context, chat_id, full_name, text)
@@ -342,7 +342,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         # message_to_delete = await context.bot.send_message(chat_id, 'Đang tổng hợp dữ liệu. Đợi em chút nhé')
         # message_id = message_to_delete.message_id
-        print('@' + update.effective_user.username)
+        print('@' + str(update.effective_user.username))
         print(f'id: {chat_id}')
 
         # response: str = await handle_response(text)
