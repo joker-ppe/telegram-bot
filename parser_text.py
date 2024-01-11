@@ -701,6 +701,133 @@ async def send_table_user_os_bet(json_data):
 
     # update.message.reply_text(f'<pre>{table}</pre>', parse_mode=ParseMode.HTML)
 
+def get_guide():
+    return """
+    <html>
+  <body>
+    <head>
+       <meta charset="UTF-8">
+      <style>
+        td,
+        th,
+        tr,
+        table {
+          border: 1px solid #000000;
+          border-collapse: collapse;
+          padding: 5px;
+        }
+
+        th {
+          background-color: #faebd7;
+        }
+
+        table td:nth-child(2) {
+          text-align: left;
+        }
+
+        table {
+          margin-left: auto;
+          margin-right: auto;
+          font-size: 25px;
+        }
+
+        body {
+          font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .hightlight {
+          color: orangered;
+        }
+      </style>
+    </head>
+    <table>
+      <tr>
+        <th>Cú pháp</th>
+        <th>Nội dung</th>
+      </tr>
+      <tr>
+        <td><span class="hightlight">user_name info</span><br/><i>ví dụ: abc123 info</i></td>
+        <td>lấy thông tin tài khoản bất kỳ</td>
+      </tr>
+      <tr>
+        <td><span class="hightlight">super</span> hoặc <span class="hightlight">super tuần này</span></td>
+        <td style="text-align: left">lấy danh sách thắng thua của super tuần này</td>
+      </tr>
+      <tr>
+        <td><span class="hightlight">super hôm nay</span></td>
+        <td style="text-align: left">lấy danh sách thắng thua của super hôm nay</td>
+      </tr>
+      <tr>
+        <td><span class="hightlight">super hôm qua</span></td>
+        <td style="text-align: left">lấy danh sách thắng thua của super hôm qua</td>
+      </tr>
+      <tr>
+        <td><span class="hightlight">master</span> hoặc <span class="hightlight">master tuần này</span></td>
+        <td style="text-align: left">lấy danh sách thắng thua của master tuần này</td>
+      </tr>
+      <tr>
+        <td><span class="hightlight">master hôm nay</span></td>
+        <td style="text-align: left">lấy danh sách thắng thua của master hôm nay</td>
+      </tr>
+      <tr>
+        <td><span class="hightlight">master hôm qua</span></td>
+        <td style="text-align: left">lấy danh sách thắng thua của master hôm qua</td>
+      </tr>
+      <tr>
+        <td><span class="hightlight">agent</span> hoặc <span class="hightlight">agent tuần này</span></td>
+        <td style="text-align: left">lấy danh sách thắng thua của agent tuần này</td>
+      </tr>
+      <tr>
+        <td><span class="hightlight">agent hôm nay</span></td>
+        <td style="text-align: left">lấy danh sách thắng thua của agent hôm nay</td>
+      </tr>
+      <tr>
+        <td><span class="hightlight">agent hôm qua</span></td>
+        <td style="text-align: left">lấy danh sách thắng thua của agent hôm qua</td>
+      </tr>
+      <tr>
+        <td><span class="hightlight">member</span> hoặc <span class="hightlight">member tuần này</span></td>
+        <td style="text-align: left">lấy danh sách thắng thua của member tuần này</td>
+      </tr>
+      <tr>
+        <td><span class="hightlight">member hôm nay</span></td>
+        <td style="text-align: left">lấy danh sách thắng thua của member hôm nay</td>
+      </tr>
+      <tr>
+        <td><span class="hightlight">member hôm qua</span></td>
+        <td style="text-align: left">lấy danh sách thắng thua của member hôm qua</td>
+      </tr>
+      <tr>
+        <td><span class="hightlight">os super</span></td>
+        <td style="text-align: left">lấy danh sách tiền chưa xử lý của super</td>
+      </tr>
+      <tr>
+        <td><span class="hightlight">os master</span></td>
+        <td style="text-align: left">lấy danh sách tiền chưa xử lý của master</td>
+      </tr>
+      <tr>
+        <td><span class="hightlight">os agent</span></td>
+        <td style="text-align: left">lấy danh sách tiền chưa xử lý của agent</td>
+      </tr>
+      <tr>
+        <td><span class="hightlight">os member</span></td>
+        <td style="text-align: left">lấy danh sách tiền chưa xử lý của member</td>
+      </tr>
+      <tr>
+        <td><span class="hightlight">member_name os bet</span><br/><i>ví dụ: abc123 os bet</i><br/><i>abc123 phải là hội viên</i></td>
+        <td>lấy thông tin chi tiết cược của hội viên</td>
+      </tr>
+      <tr>
+        <td><span class="hightlight">xsmb</span></td>
+        <td>lấy kết quả xổ số miền Bắc</td>
+      </tr>
+    </table>
+  </body>
+</html>
+
+"""
+
+
 
 
 def check_response(message, response):

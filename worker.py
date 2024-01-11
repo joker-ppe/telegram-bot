@@ -13,6 +13,7 @@ baseUrl = "http://3.1.5.108:3004"
 
 
 async def fetch_url(session, url):
+    print(url)
     async with session.get(url, ssl=False) as response:
         if response.status == 200:
             return await response.json()

@@ -92,6 +92,11 @@ async def handle_response(context: ContextTypes.DEFAULT_TYPE, chat_id: int, full
     if detect_report_xsmb(text_full):
         report = await get_report_xsmb()
         return report
+    
+    elif detect_guide(text_full):
+        guide = get_guide()
+        return guide
+
     elif detect_os_cong_ty(text_full):
         if check_time_and_send_notification():
             return 'Đang tính toán dữ liệu hôm nay. Anh vui lòng nhắn sau khi có báo cáo tự động nhé ạ.', ''
