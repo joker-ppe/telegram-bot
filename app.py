@@ -90,12 +90,18 @@ async def handle_response(context: ContextTypes.DEFAULT_TYPE, chat_id: int, full
 
     # call api
     if detect_report_xsmb(text_full):
+        message_to_delete = await context.bot.send_message(chat_id, f'Đang lấy dữ liệu. Anh {full_name} đợi em chút nhé')
+        message_id = message_to_delete.message_id
+        
         report = await get_report_xsmb()
-        return report
+        return report, message_id
     
     elif detect_guide(text_full):
+        message_to_delete = await context.bot.send_message(chat_id, f'Đang lấy dữ liệu. Anh {full_name} đợi em chút nhé')
+        message_id = message_to_delete.message_id
+
         guide = get_guide()
-        return guide
+        return guide, message_id
 
     elif detect_os_cong_ty(text_full):
         if check_time_and_send_notification():
@@ -361,7 +367,9 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
             # Delete the image after sending
             os.remove(f'{message_id}{chat_id}.jpg')
-        except Exception:
+        except Exception as e:
+            print(f'Error: {e}')
+
             pdfkit.from_string(response, f'{message_id}{chat_id}.pdf')
             with open(f'{message_id}{chat_id}.pdf', 'rb') as file:
                 await update.message.reply_document(file)
