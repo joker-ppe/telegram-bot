@@ -21,7 +21,7 @@ options = {
     'format': 'jpg',
     'width': '600',
     # Adjust the quality (0-100). Lower might reduce clarity.
-    'quality': '100',
+    'quality': '60',
     # Adjust width as per requirement
     # Other options as needed...
 }
@@ -427,7 +427,7 @@ if __name__ == '__main__':
     target_time_master_report = time(18, 39, second, tzinfo=local_timezone)  # Set your time here
     job_daily2 = job_queue.run_daily(send_notification_message, time=target_time_master_report)
 
-    print("App running...")
+    print("App for Admin running...")
 
      # Run the bot
     app.run_polling(poll_interval=1)
