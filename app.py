@@ -352,7 +352,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     # print('Bot:', response)
 
-    if '<tr><th>STT.</th><th>Thể loại</th><th>Số</th><th>Điểm</th><th>Tổng</th></tr>' in response:
+    if '<tr><th>STT.</th><th>Thể loại</th><th>Số</th><th>Điểm</th><th>Tiền</th><th>Trả thưởng</th><th>Lợi nhuận</th></tr>' in response:
         pdfkit.from_string(response, f'{message_id}{chat_id}.pdf')
         with open(f'{message_id}{chat_id}.pdf', 'rb') as file:
             await update.message.reply_document(file)

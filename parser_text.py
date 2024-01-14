@@ -617,48 +617,99 @@ async def send_table_user_os_bet_image(json_data):
       }
 
       table {
-        margin-left: auto;
-        margin-right: auto;
-        font-size: 25px;
-      }
+          margin-left: auto;
+          margin-right: auto;
+          font-size: 20px;
+          table-layout: auto;
+          width: 100%;  
+        }
 
       body {
         font-family: Arial, Helvetica, sans-serif;
       }
+
+      .win {
+        color: blue;
+      }
+
+      .lose {
+        color: red;
+      }
+
     </style>
 </head>                    
 """
    
     # table bet record
     
-    if (json_data['outstanding'] != 0) and (int(json_data['level']) == 5):
-        html_table += "<table>"
-        html_table += f"<caption style='color: red; font-size: 35px; margin-bottom: 10px;'>Outstanding {json_data['full_name']}: {json_data['outstanding']:,}</caption>"
-        html_table += f"<tr><th>STT.</th><th>Thể loại</th><th>Số</th><th>Điểm</th><th>Tổng</th></tr>"
+    html_table += "<table>"
 
-        
-        # print(json_data['data'])
+    if json_data['outstanding'] != 0:
+        html_table += f"<caption style='color: red; font-size: 35px; margin-bottom: 10px;'>Outstanding {json_data['full_name']} hôm nay: {json_data['outstanding']:,}</caption>"
+    else:
+        profit = json_data['profit']
+        class_name = 'lose'
+        if (profit > 0):
+            class_name = 'win'
+        html_table += f"<caption style='font-size: 35px; margin-bottom: 10px;'>Lợi nhuận {json_data['full_name']} hôm nay: <span class='{class_name}'>{profit:,}</span></caption>"
 
-        for index, (item) in enumerate(json_data['data'], start=1):
-            number = " ".join(str(x) for x in item['number'])
-            game_name = get_type_game(int(item['bet_type']))
-            # price = int(item['amount']) / int(item['point'])
-            html_table += f"""
+    
+    html_table += f"<tr><th>STT.</th><th>Thể loại</th><th>Số</th><th>Điểm</th><th>Tiền</th><th>Trả thưởng</th><th>Lợi nhuận</th></tr>"
+
+    # print(json_data['data'])
+
+    total_profit = 0
+    total_payout = 0
+    total_points = 0
+    total_amount = 0
+
+    for index, (item) in enumerate(json_data['data'], start=1):
+      number = " ".join(str(x) for x in item['number'])
+      game_name = get_type_game(int(item['bet_type']))
+
+      profit_item = item['payout'] - item['amount'] 
+
+      total_profit += profit_item
+      total_payout += item['payout']
+      total_points += item['point']
+      total_amount += item['amount']
+
+      class_name_item = 'lose'
+      if profit_item > 0:
+        class_name_item = 'win'
+      # price = int(item['amount']) / int(item['point'])
+      html_table += f"""
     <tr>
         <td style='text-align: left;'>{index}</td>
         <td style='text-align: left;'>{game_name}</td>
         <td style='text-align: center;'>{number}</td>
         <td style='text-align: right;'>{item['point']:,}</td>
         <td style='text-align: right;'>{item['amount']:,}</td>
+        <td style='text-align: right;'>{item['payout']:,}</td>
+        <td class='{class_name_item}' style='text-align: right;'>{profit_item:,}</td>
     </tr>
-    """             
+    """
+    
+    class_name_total = 'lose'
+    if total_profit > 0:
+        class_name_total = 'win'
 
-        html_table += "</table>"
+    html_table += f"""
+            <tr style='font-weight: bold;'>
+              <td colspan='3' style='text-align: center;'>Tổng</td>
+              <td style='text-align: right;'>{total_points:,}</td>
+              <td style='text-align: right;'>{total_amount:,}</td>
+              <td style='text-align: right;'>{total_payout:,}</td>
+              <td class='{class_name_total}' style='text-align: right;'>{total_profit:,}</td></tr>
+"""
 
+    html_table += "</table>"
     html_table += "</body></html>"
 
     # Kết quả là một chuỗi HTML có thể được sử dụng trong Telegram Bot API
     html_output = f'{html_table}'
+
+    # print(html_output)
 
     return html_output
 
