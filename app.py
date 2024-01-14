@@ -410,7 +410,7 @@ if __name__ == '__main__':
 
     app.add_handler(MessageHandler(filters.TEXT, handle_message))
 
-    # app.add_error_handler(error)
+    app.add_error_handler(error)
 
     print("App setting up schedules...")
 
@@ -420,7 +420,7 @@ if __name__ == '__main__':
     # job_minute = job_queue.run_repeating(callback_minute, interval=60, first=10)
 
     local_timezone = pytz.timezone('Asia/Bangkok')
-    target_time_admin_report = time(18, 39, 10, tzinfo=local_timezone)  # Set your time here
+    target_time_admin_report = time(18, 38, 10, tzinfo=local_timezone)  # Set your time here
     job_daily1 = job_queue.run_daily(send_notification, time=target_time_admin_report)
 
     second = random.randint(1, 59)
