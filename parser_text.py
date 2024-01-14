@@ -667,7 +667,9 @@ async def send_table_user_os_bet_image(json_data):
       number = " ".join(str(x) for x in item['number'])
       game_name = get_type_game(int(item['bet_type']))
 
-      profit_item = item['payout'] - item['amount'] 
+      profit_item = 0
+      if int(item['status']) == 1:
+        profit_item = item['payout'] - item['amount'] 
 
       total_profit += profit_item
       total_payout += item['payout']
