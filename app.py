@@ -369,13 +369,13 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             os.remove(f'{message_id}{chat_id}.jpg')
         except Exception as e:
             print(f'Error: {e}')
-            if str(e) != 'Timed out':
-                pdfkit.from_string(response, f'{message_id}{chat_id}.pdf')
-                with open(f'{message_id}{chat_id}.pdf', 'rb') as file:
-                    await update.message.reply_document(file)
+            pdfkit.from_string(response, f'{message_id}{chat_id}.pdf')
+            with open(f'{message_id}{chat_id}.pdf', 'rb') as file:
+                await update.message.reply_document(file)
 
-                # Delete the image after sending
-                os.remove(f'{message_id}{chat_id}.pdf')
+            # Delete the image after sending
+            os.remove(f'{message_id}{chat_id}.pdf')
+                
     elif 'Không đúng cú pháp. Chúc anh một ngày tốt lành.' in response:
         # do nothing
         print('hóng')
