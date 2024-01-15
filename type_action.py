@@ -92,6 +92,9 @@ def detect_today(text):
 def detect_this_week(text):
     words = ['tuần này', 'tuan nay']
     return detect_action(text, words)
+def detect_last_week(text):
+    words = ['tuần trước', 'tuan truoc']
+    return detect_action(text, words)
 
 def detect_action(text, words):
     for word in words:

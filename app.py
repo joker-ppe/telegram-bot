@@ -87,6 +87,13 @@ async def handle_response(context: ContextTypes.DEFAULT_TYPE, chat_id: int, full
         time_text = 'hôm qua'
     elif detect_this_week(text_full):
         time_text = 'tuần này'
+    elif detect_last_week(text_full):
+        time_text = 'tuần trước'
+        today = datetime.now()
+        # Calculate last Monday and Sunday
+        last_monday = today - timedelta(days=(today.weekday() + 7) % 7) - timedelta(days=7)
+        from_date = last_monday.strftime('%Y-%m-%d')
+        end_date = (last_monday + timedelta(days=6)).strftime('%Y-%m-%d')
 
     # call api
     if detect_report_xsmb(text_full):
