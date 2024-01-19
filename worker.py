@@ -7,9 +7,9 @@ from bs4 import BeautifulSoup
 from style import get_style
 
 
-baseUrl = "http://3.1.5.108:3004"
+baseUrl = "http://3.1.5.108"
 # baseUrl = "https://api.winwwin68.com"
-# baseUrl = "http://localhost:3004"
+# baseUrl = "http://localhost"
 
 
 async def fetch_url(session, url):
