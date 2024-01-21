@@ -67,7 +67,7 @@ def detect_member_info_os_number(text):
     return detect_action(text, words)
 
 def detect_member_info_os_bet(text):
-    words = ['os phiếu cược', 'os phieu cuoc', 'os cuoc', 'os bet',]
+    words = ['os phiếu cược', 'os phieu cuoc', 'os cuoc', 'os cược', 'os bet',]
     return detect_action(text, words)
 
 def detect_report_number(text):

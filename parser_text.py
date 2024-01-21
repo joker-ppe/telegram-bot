@@ -75,6 +75,7 @@ async def send_table_image(json_data, time_text = 'tuần này', role='Cổ Đô
 
     # Xây dựng bảng HTML
     html_table = "<html><body>"
+    html_table += f"<title>wl-{role}-{time_text}</title>"
     html_table += """
 <head>
     <meta charset="UTF-8">
@@ -138,7 +139,7 @@ async def send_table_image(json_data, time_text = 'tuần này', role='Cổ Đô
     else:
         html_table += f"<tr style='font-weight: bold;'><td colspan='{colspan}' style='text-align: center;'>Tổng</td><td class='lose' style='text-align: right;'>{total:,}</td></tr>"
 
-    html_table += "</table>"
+    html_table += "</>"
     html_table += "</body></html>"
 
     # Kết quả là một chuỗi HTML có thể được sử dụng trong Telegram Bot API
@@ -195,6 +196,7 @@ async def send_table_os_image(json_data, role='Cổ Đông'):
 
     # Xây dựng bảng HTML
     html_table = "<html><body>"
+    html_table += f"<title>os-{role}</title>"
     html_table += """
 <head>
     <meta charset="UTF-8">
@@ -310,6 +312,8 @@ async def send_table_user_image(json_data):
             name = children['full_name']
             outstanding = "{:,}".format(round(children['outstanding']))
             profit = "{:,}".format(round(children['profit']))
+            commission = "{:,}".format(round(children['commission']))
+            
             
             profit_item = f"""
             <span class='lose'>{profit}</span>               
@@ -322,13 +326,13 @@ async def send_table_user_image(json_data):
                 html_table += f"""
     <tr>
         <td rowspan='{len(json_data['list_children'])}'>Tuyến dưới</td>
-        <td style='text-align: left;'>{name}<br/>wl: {profit_item}<br/>os: {outstanding}</td>
+        <td style='text-align: left;'>{name}<br/>wl: {profit_item}<br/>os: {outstanding}<br/>hh: {commission}</td>
     </tr>
     """             
             else:
                 html_table += f"""
     <tr>
-        <td style='text-align: left;'>{name}<br/>wl: {profit_item}<br/>os: {outstanding}</td>
+        <td style='text-align: left;'>{name}<br/>wl: {profit_item}<br/>os: {outstanding}<br/>hh: {commission}</td>
     </tr>
     """            
 
@@ -354,6 +358,21 @@ async def send_table_user_image(json_data):
     outstanding = "{:,}".format(round(json_data['outstanding']))
     html_table += f"<tr><td>Outstanding</td><td>{outstanding}</td></tr>"
 
+    commission = 0
+    if json_data['level'] == 1:
+        commission = json_data['companyCommission'] + json_data['adminCommission']
+    elif json_data['level'] == 2:
+        commission = json_data['superCommission']
+    elif json_data['level'] == 3:
+        commission = json_data['masterCommission']
+    elif json_data['level'] == 4:
+        commission = json_data['agentCommission']
+    
+    if json_data['level'] != 5:
+        commission = "{:,}".format(round(commission))
+        html_table += f"<tr><td>HH</td><td>{commission}</td></tr>"
+    
+
     data_bet_keys = json_data['data_bet'].keys()
 
     # print(json_data['data_bet'])
@@ -370,7 +389,7 @@ async def send_table_user_image(json_data):
                 html_table += f"<tr><td style='text-align: left;'><strong>{game_name}</strong><br/>{point} điểm<br/>{amount}</td></tr>"
 
 
-    html_table += "</table>"
+    html_table += "</>"
     # table bet record
     
     html_table += "</body></html>"
@@ -756,7 +775,7 @@ async def send_table_user_os_bet(json_data):
 
 def get_guide():
     return """
-    <html>
+<html>
   <body>
     <head>
        <meta charset="UTF-8">
@@ -807,6 +826,10 @@ def get_guide():
         <td style="text-align: left">lấy danh sách thắng thua của super tuần này</td>
       </tr>
       <tr>
+        <td><span class="hightlight">super tuần trước</span></td>
+        <td style="text-align: left">lấy danh sách thắng thua của super tuần trước</td>
+      </tr>
+      <tr>
         <td><span class="hightlight">super hôm nay</span></td>
         <td style="text-align: left">lấy danh sách thắng thua của super hôm nay</td>
       </tr>
@@ -817,6 +840,10 @@ def get_guide():
       <tr>
         <td><span class="hightlight">master</span> hoặc <span class="hightlight">master tuần này</span></td>
         <td style="text-align: left">lấy danh sách thắng thua của master tuần này</td>
+      </tr>
+      <tr>
+        <td><span class="hightlight">master tuần trước</span></td>
+        <td style="text-align: left">lấy danh sách thắng thua của master tuần trước</td>
       </tr>
       <tr>
         <td><span class="hightlight">master hôm nay</span></td>
@@ -831,6 +858,10 @@ def get_guide():
         <td style="text-align: left">lấy danh sách thắng thua của agent tuần này</td>
       </tr>
       <tr>
+        <td><span class="hightlight">agent tuần trước</span></td>
+        <td style="text-align: left">lấy danh sách thắng thua của agent tuần trước</td>
+      </tr>
+      <tr>
         <td><span class="hightlight">agent hôm nay</span></td>
         <td style="text-align: left">lấy danh sách thắng thua của agent hôm nay</td>
       </tr>
@@ -841,6 +872,10 @@ def get_guide():
       <tr>
         <td><span class="hightlight">member</span> hoặc <span class="hightlight">member tuần này</span></td>
         <td style="text-align: left">lấy danh sách thắng thua của member tuần này</td>
+      </tr>
+      <tr>
+        <td><span class="hightlight">member tuần trước</span></td>
+        <td style="text-align: left">lấy danh sách thắng thua của member tuần trước</td>
       </tr>
       <tr>
         <td><span class="hightlight">member hôm nay</span></td>

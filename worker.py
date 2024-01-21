@@ -9,7 +9,7 @@ from style import get_style
 
 baseUrl = "http://3.1.5.108"
 # baseUrl = "https://api.winwwin68.com"
-# baseUrl = "http://localhost"
+# baseUrl = "http://localhost:3004"
 
 
 async def fetch_url(session, url):
@@ -77,10 +77,12 @@ async def get_report_xsmb():
 
     table = soup.find_all(attrs={'class': 'table-result table-xsmb'})[0]
 
+    table_loto = soup.find_all(attrs={'class': 'table-loto'})[0]
 
     html_table = "<html><body>"
     html_table += get_style()
     html_table += table.prettify()
+    html_table += table_loto.prettify()
     html_table += "</body></html>"
     return html_table
 
