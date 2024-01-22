@@ -243,7 +243,7 @@ async def handle_response(context: ContextTypes.DEFAULT_TYPE, chat_id: int, full
                 message_to_delete = await context.bot.send_message(chat_id, f'Đang tổng hợp dữ liệu. Sếp {full_name} đợi em chút nhé')
                 message_id = message_to_delete.message_id
             
-            user = await get_user(from_date, end_date, formatted_yesterday, info)
+            user = await get_user_last_week(info)
         
             return await send_table_user_image(user), message_id
         elif detect_member_info(processed):
