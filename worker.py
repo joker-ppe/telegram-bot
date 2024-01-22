@@ -27,6 +27,14 @@ async def get_user(from_date, end_date, yesterday, user_name):
         if (len(response) == 0):
             return '***'
         return response
+
+async def get_user_last_week(user_name):
+    url = f'{baseUrl}/report/userLastWeek?userName={user_name}'
+    async with aiohttp.ClientSession() as session:
+        response = await fetch_url(session, url)
+        if (len(response) == 0):
+            return '***'
+        return response
     
 async def get_user_data(from_date, end_date, user_name, filter='profit'):
     url = f'{baseUrl}/report?startDate={from_date}&endDate={end_date}&userName={user_name}'
