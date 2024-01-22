@@ -244,7 +244,8 @@ async def handle_response(context: ContextTypes.DEFAULT_TYPE, chat_id: int, full
                 message_id = message_to_delete.message_id
             
             user = await get_user(from_date, end_date, formatted_yesterday, info)
-
+        
+            return await send_table_user_image(user), message_id
         elif detect_member_info(processed):
             if check_time_and_send_notification():
                 return 'Đang tính toán dữ liệu hôm nay. Sếp vui lòng nhắn sau khi có báo cáo tự động nhé ạ.', ''
