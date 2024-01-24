@@ -74,6 +74,7 @@ async def handle_response(context: ContextTypes.DEFAULT_TYPE, chat_id: int, full
     end_date = datetime.now().strftime('%Y-%m-%d')
 
     time_text = 'tuần này'
+    report_date = datetime.now().strftime('%Y-%m-%d')
     # get time
     if detect_today(text_full):
         # do nothing
@@ -95,6 +96,7 @@ async def handle_response(context: ContextTypes.DEFAULT_TYPE, chat_id: int, full
         last_monday = today - timedelta(days=(today.weekday() + 7) % 7) - timedelta(days=7)
         from_date = last_monday.strftime('%Y-%m-%d')
         end_date = (last_monday + timedelta(days=6)).strftime('%Y-%m-%d')
+        report_date = from_date
 
     # call api
     if detect_report_xsmb(text_full):
@@ -268,6 +270,19 @@ async def handle_response(context: ContextTypes.DEFAULT_TYPE, chat_id: int, full
             user = await get_user(from_date, end_date, formatted_yesterday, info)
             # user = await get_user(from_date, formatted_yesterday, (datetime.now() - timedelta(days=2)).strftime('%Y-%m-%d'), info)
             return await send_table_user_image(user), message_id
+        
+        elif detect_report_super(processed):
+            if check_time_and_send_notification():
+                return 'Đang tính toán dữ liệu hôm nay. Sếp vui lòng nhắn sau khi có báo cáo tự động nhé ạ.', ''
+            else:
+                message_to_delete = await context.bot.send_message(chat_id, f'Đang tổng hợp dữ liệu. Sếp {full_name} đợi em chút nhé')
+                message_id = message_to_delete.message_id
+            
+            report = await get_report_super(report_date, info)
+
+            return await send_table_report_super_image(report), message_id
+
+
         elif detect_member_info_os_bet(processed):
             if check_time_and_send_notification():
                 return 'Đang tính toán dữ liệu hôm nay. Sếp vui lòng nhắn sau khi có báo cáo tự động nhé ạ.', ''
@@ -455,7 +470,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     # print('Bot:', response)
 
-    if '<tr><th>STT.</th><th>Thể loại</th><th>Số</th><th>Điểm</th><th>Tiền</th><th>Trả thưởng</th><th>Lợi nhuận</th></tr>' in response:
+    if '<tr><th>STT.</th><th>Thể loại</th><th>Số</th><th>Điểm</th><th>Tiền</th><th>Trả thưởng</th><th>Lợi nhuận</th></tr>' in response or '<title>pdf</title>' in response:
         pdfkit.from_string(response, f'{message_id}{chat_id}.pdf')
         with open(f'{message_id}{chat_id}.pdf', 'rb') as file:
             await update.message.reply_document(file)

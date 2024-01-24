@@ -8,7 +8,7 @@ async def send_table(json_data, time_text, role='Cổ Đông'):
     table.align['Thắng thua'] = 'r'
 
     if (json_data == "***"):
-        return "Không tìm thấy thông tin. Anh vui lòng kiểm tra và thử lại."
+        return "Không tìm thấy thông tin. Sếp vui lòng kiểm tra và thử lại."
 
     # print(json_data)
 
@@ -18,7 +18,7 @@ async def send_table(json_data, time_text, role='Cổ Đông'):
     # print(data)
 
     if (len(data) == 0):
-        return "Không tìm thấy thông tin. Anh vui lòng kiểm tra và thử lại."
+        return "Không tìm thấy thông tin. Sếp vui lòng kiểm tra và thử lại."
 
     data = sorted(data, key=lambda x: x[1], reverse=True)
 
@@ -36,7 +36,7 @@ async def send_table(json_data, time_text, role='Cổ Đông'):
 async def send_table_image(json_data, time_text = 'tuần này', role='Cổ Đông', threshold='threshold'):
 
     if (json_data == "***"):
-        return "Không tìm thấy thông tin. Anh vui lòng kiểm tra và thử lại."
+        return "Không tìm thấy thông tin. Sếp vui lòng kiểm tra và thử lại."
 
     # print(json_data)
     title = f"<caption>Báo cáo {role} {time_text}</caption>"
@@ -59,7 +59,7 @@ async def send_table_image(json_data, time_text = 'tuần này', role='Cổ Đô
     # print(data)
 
     if (len(data) == 0):
-        return "Không tìm thấy thông tin. Anh vui lòng kiểm tra và thử lại."
+        return "Không tìm thấy thông tin. Sếp vui lòng kiểm tra và thử lại."
     
     total = sum(int(item[1]) for item in data)
 
@@ -79,6 +79,7 @@ async def send_table_image(json_data, time_text = 'tuần này', role='Cổ Đô
     html_table += """
 <head>
     <meta charset="UTF-8">
+    <link href='https://fonts.googleapis.com/css?family=Be Vietnam Pro' rel='stylesheet'>
 <style>
         td,
       th,
@@ -100,7 +101,7 @@ async def send_table_image(json_data, time_text = 'tuần này', role='Cổ Đô
       }
 
       body {
-        font-family: Arial, Helvetica, sans-serif;
+        font-family: 'Be Vietnam Pro';
       }
 
       .win {
@@ -156,13 +157,13 @@ async def send_table_os(json_data, role='Cổ Đông'):
     table.align['Outstanding'] = 'r'
 
     if (json_data == "***"):
-        return "Không tìm thấy thông tin. Anh vui lòng kiểm tra và thử lại."
+        return "Không tìm thấy thông tin. Sếp vui lòng kiểm tra và thử lại."
 
     data = [(item["full_name"], item["outstanding"])
             for item in json_data if item["outstanding"] != 0]
 
     if (len(data) == 0):
-        return "Không tìm thấy thông tin. Anh vui lòng kiểm tra và thử lại."
+        return "Không tìm thấy thông tin. Sếp vui lòng kiểm tra và thử lại."
 
     data = sorted(data, key=lambda x: x[1], reverse=True)
 
@@ -182,13 +183,13 @@ async def send_table_os(json_data, role='Cổ Đông'):
 async def send_table_os_image(json_data, role='Cổ Đông'):
 
     if (json_data == "***"):
-        return "Không tìm thấy thông tin. Anh vui lòng kiểm tra và thử lại."
+        return "Không tìm thấy thông tin. Sếp vui lòng kiểm tra và thử lại."
 
     data = [(item["full_name"], item["outstanding"])
             for item in json_data if item["outstanding"] != 0]
 
     if (len(data) == 0):
-        return "Không tìm thấy thông tin. Anh vui lòng kiểm tra và thử lại."
+        return "Không tìm thấy thông tin. Sếp vui lòng kiểm tra và thử lại."
 
     data = sorted(data, key=lambda x: x[1], reverse=True)
 
@@ -200,6 +201,7 @@ async def send_table_os_image(json_data, role='Cổ Đông'):
     html_table += """
 <head>
     <meta charset="UTF-8">
+    <link href='https://fonts.googleapis.com/css?family=Be Vietnam Pro' rel='stylesheet'>
 <style>
         td,
       th,
@@ -225,7 +227,7 @@ async def send_table_os_image(json_data, role='Cổ Đông'):
       }
 
       body {
-        font-family: Arial, Helvetica, sans-serif;
+        font-family: 'Be Vietnam Pro';
       }
     </style>
 </head>                    
@@ -255,7 +257,7 @@ async def send_table_user_image(json_data):
     # print(json_data)
 
     if (json_data == "***"):
-        return "Không tìm thấy thông tin. Anh vui lòng kiểm tra và thử lại."
+        return "Không tìm thấy thông tin. Sếp vui lòng kiểm tra và thử lại."
 
 
     # Xây dựng bảng HTML
@@ -263,6 +265,7 @@ async def send_table_user_image(json_data):
     html_table += """
 <head>
     <meta charset="UTF-8">
+    <link href='https://fonts.googleapis.com/css?family=Be Vietnam Pro' rel='stylesheet'>
 <style>
         td,
       th,
@@ -288,7 +291,7 @@ async def send_table_user_image(json_data):
       }
 
       body {
-        font-family: Arial, Helvetica, sans-serif;
+        font-family: 'Be Vietnam Pro';
       }
 
       .win {
@@ -401,12 +404,182 @@ async def send_table_user_image(json_data):
 
     # update.message.reply_text(f'<pre>{table}</pre>', parse_mode=ParseMode.HTML)
 
+async def send_table_report_super_image(json_data): 
+    if (json_data == "***"):
+        return "Không tìm thấy thông tin. Sếp vui lòng kiểm tra và thử lại."
+    
+    list_masters = json_data['listMasters']
+    list_supers = json_data['listSupers']
+    if (len(list_masters) == 0 and len(list_supers) == 0):
+        return f"Không tìm thấy thông tin thanh toán cho {json_data['name']}. Sếp vui lòng kiểm tra và thử lại."
+    
+    html_table = "<html><body>"
+    html_table += """
+<head>
+    <meta charset="UTF-8">
+    <title>pdf</title>
+    <link href='https://fonts.googleapis.com/css?family=Be Vietnam Pro' rel='stylesheet'>
+<style>
+        td,
+      th,
+      tr,
+      table {
+        border: 1px solid #000000;
+        border-collapse: collapse;
+        padding: 5px;
+      }
+
+      th {
+        background-color: #faebd7;
+      }
+
+      table td:nth-child(2){
+        text-align: right;
+      }
+
+      table {
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 25px;
+      }
+
+      td{
+white-space:nowrap;
+}
+
+      body {
+        font-family: 'Be Vietnam Pro';
+      }
+
+      .win {
+        color: blue;
+      }
+
+      .lose {
+        color: red;
+      }
+
+    </style>
+</head>                    
+"""
+    html_table += "<table>"
+    html_table += f"<caption style='font-size: 35px; margin-bottom: 10px;'><strong>Báo cáo tuần {json_data['name']}</strong></caption>"
+    html_table += "<tr><th>Super</th><th>TK</th><th>Thầu</th><th>Thắng thua</th><th>Hoa Hồng</th><th>Hoa Hồng Tuyến Dưới</th><th>Thanh Toán</th></tr>"
+
+    total_profit = 0
+    total_commission = 0
+    total_down_line_commission = 0
+    total_payment = 0
+
+    for index, (master) in enumerate(list_masters, start=1):
+        full_name = master['full_name']
+        bid_percent = master['bidPercent']
+        profit = master['profit']
+        commission = master['masterCommission']
+        down_line_commission = master['downLineCommission']
+        payment = round((profit + commission + down_line_commission) * (100 - bid_percent) / 100)
+
+        total_profit += profit
+        total_commission += commission
+        total_down_line_commission += down_line_commission
+        total_payment += payment
+
+        class_profit = 'lose'
+        class_payment = 'lose'
+        if profit > 0:
+            class_profit = 'win'
+        if payment > 0:
+            class_payment = 'win'
+        
+        if index == 1:
+          html_table += f"""<tr>
+                              <td rowspan={len(list_masters)} style='text-align: left;'>Công Ty</td>
+                              <td style='text-align: left;'>{full_name}</td>
+                              <td style='text-align: right;'>{bid_percent}%</td>
+                              <td class='{class_profit}' style='text-align: right;'>{profit:,}</td>
+                              <td style='text-align: right;'>{commission:,}</td>
+                              <td style='text-align: right;'>{down_line_commission:,}</td>
+                              <td class='{class_payment}' style='text-align: right;'>{payment:,}</td>
+                            </tr>"""
+        else:
+          html_table += f"""<tr>
+                              <td style='text-align: left;'>{full_name}</td>
+                              <td style='text-align: right;'>{bid_percent}%</td>
+                              <td class='{class_profit}' style='text-align: right;'>{profit:,}</td>
+                              <td style='text-align: right;'>{commission:,}</td>
+                              <td style='text-align: right;'>{down_line_commission:,}</td>
+                              <td class='{class_payment}' style='text-align: right;'>{payment:,}</td>
+                            </tr>"""
+
+    for index, (super) in enumerate(list_supers, start=1):
+        full_name = super['full_name']
+        bid_percent = super['bidPercent']
+        profit = super['profit']
+        commission = super['superCommission']
+        down_line_commission = super['downLineCommission']
+        payment = round((profit + commission + down_line_commission) * (100 - bid_percent) / 100)  
+
+        total_profit += profit
+        total_commission += commission
+        total_down_line_commission += down_line_commission
+        total_payment += payment
+
+        class_profit = 'lose'
+        class_payment = 'lose'
+        if profit > 0:
+            class_profit = 'win'
+        if payment > 0:
+            class_payment = 'win'  
+        
+        html_table += f"""<tr>
+                              <td style='text-align: left;'>{full_name}</td>
+                              <td style='text-align: left;'></td>
+                              <td style='text-align: right;'>{bid_percent}%</td>
+                              <td class='{class_profit}' style='text-align: right;'>{profit:,}</td>
+                              <td style='text-align: right;'>{commission:,}</td>
+                              <td style='text-align: right;'>{down_line_commission:,}</td>
+                              <td class='{class_payment}' style='text-align: right;'>{payment:,}</td>
+                            </tr>"""
+
+    class_profit = 'lose'
+    class_payment = 'lose'
+    text_payment = 'Tổng Trả Công Ty'
+    if total_profit > 0:
+      class_profit = 'win'
+    if total_payment > 0:
+      class_payment = 'win'
+      text_payment = 'Tổng Công Ty Bù'
+    # Thêm hàng tổng
+    html_table += f"""<tr style='font-weight: bold; font-size: 27px;'>
+                            <td colspan='3' style='text-align: center;'>Tổng</td>
+                            <td class='{class_profit}' style='text-align: right;'>{total_profit:,}</td>
+                            <td style='text-align: right;'>{total_commission:,}</td>
+                            <td style='text-align: right;'>{total_down_line_commission:,}</td>
+                            <td class='{class_payment}' style='text-align: right;'>{total_payment:,}</td>
+                      </tr>"""
+    
+
+
+    html_table += f"""<tr style='font-weight: bold; font-size: 30px;'>
+                            <td colspan='6' style='text-align: center;'>{text_payment}</td>
+                            <td style='text-align: right;'>{abs(total_payment):,}</td>
+                      </tr>"""
+    
+
+    html_table += "</table>"
+    html_table += "</body></html>"
+
+    # Kết quả là một chuỗi HTML có thể được sử dụng trong Telegram Bot API
+    html_output = f'{html_table}'
+
+    return html_output
+        
 
 async def send_table_user_os_number_image(json_data):
     # print(json_data)
 
     if (json_data == "***"):
-        return "Không tìm thấy thông tin. Anh vui lòng kiểm tra và thử lại."
+        return "Không tìm thấy thông tin. Sếp vui lòng kiểm tra và thử lại."
 
     if int(json_data['level']) != 5:
         return f"Tài khoản {json_data['full_name']} không phải là Hội viên. Vui lòng kiểm tra lại."
@@ -416,6 +589,7 @@ async def send_table_user_os_number_image(json_data):
     html_table += """
 <head>
     <meta charset="UTF-8">
+    <link href='https://fonts.googleapis.com/css?family=Be Vietnam Pro' rel='stylesheet'>
 <style>
         td,
       th,
@@ -441,7 +615,7 @@ async def send_table_user_os_number_image(json_data):
       }
 
       body {
-        font-family: Arial, Helvetica, sans-serif;
+        font-family: 'Be Vietnam Pro';
       }
     </style>
 </head>                    
@@ -507,13 +681,14 @@ async def send_table_number_image(json_data):
     # print(json_data)
 
     if (json_data == "***"):
-        return "Không tìm thấy thông tin. Anh vui lòng kiểm tra và thử lại."
+        return "Không tìm thấy thông tin. Sếp vui lòng kiểm tra và thử lại."
 
     # Xây dựng bảng HTML
     html_table = "<html><body>"
     html_table += """
 <head>
     <meta charset="UTF-8">
+    <link href='https://fonts.googleapis.com/css?family=Be Vietnam Pro' rel='stylesheet'>
 <style>
         td,
       th,
@@ -539,7 +714,7 @@ async def send_table_number_image(json_data):
       }
 
       body {
-        font-family: Arial, Helvetica, sans-serif;
+        font-family: 'Be Vietnam Pro';
       }
     </style>
 </head>                    
@@ -604,7 +779,7 @@ async def send_table_user_os_bet_image(json_data):
     # print(json_data)
 
     if (json_data == "***"):
-        return "Không tìm thấy thông tin. Anh vui lòng kiểm tra và thử lại."
+        return "Không tìm thấy thông tin. Sếp vui lòng kiểm tra và thử lại."
 
     if int(json_data['level']) != 5:
         return f"Tài khoản {json_data['full_name']} không phải là Hội viên. Vui lòng kiểm tra lại."
@@ -617,6 +792,7 @@ async def send_table_user_os_bet_image(json_data):
     html_table += """
 <head>
     <meta charset="UTF-8">
+    <link href='https://fonts.googleapis.com/css?family=Be Vietnam Pro' rel='stylesheet'>
 <style>
         td,
       th,
@@ -644,7 +820,7 @@ async def send_table_user_os_bet_image(json_data):
         }
 
       body {
-        font-family: Arial, Helvetica, sans-serif;
+        font-family: 'Be Vietnam Pro';
       }
 
       .win {
@@ -749,7 +925,7 @@ async def send_table_user_os_bet(json_data):
     table.align['Tổng'] = 'r'
 
     if (json_data == "***"):
-        return "Không tìm thấy thông tin. Anh vui lòng kiểm tra và thử lại."
+        return "Không tìm thấy thông tin. Sếp vui lòng kiểm tra và thử lại."
 
     if int(json_data['level']) != 5:
         return f"Tài khoản {json_data['full_name']} không phải là Hội viên. Vui lòng kiểm tra lại."
@@ -779,6 +955,7 @@ def get_guide():
   <body>
     <head>
        <meta charset="UTF-8">
+       <link href='https://fonts.googleapis.com/css?family=Be Vietnam Pro' rel='stylesheet'>
       <style>
         td,
         th,
@@ -804,7 +981,7 @@ def get_guide():
         }
 
         body {
-          font-family: Arial, Helvetica, sans-serif;
+          font-family: 'Be Vietnam Pro';
         }
 
         .hightlight {
@@ -920,7 +1097,7 @@ def get_guide():
 
 def check_response(message, response):
     if (response == "***"):
-        return "Không tìm thấy thông tin. Anh vui lòng kiểm tra và thử lại."
+        return "Không tìm thấy thông tin. Sếp vui lòng kiểm tra và thử lại."
 
     formatted_number = "{:,}".format(round(response))
     return f'{message} {formatted_number}'
@@ -928,7 +1105,7 @@ def check_response(message, response):
 
 def check_response_company_profit(message, response):
     if (response == "***"):
-        return "Không tìm thấy thông tin. Anh vui lòng kiểm tra và thử lại."
+        return "Không tìm thấy thông tin. Sếp vui lòng kiểm tra và thử lại."
 
     formatted_number = "{:,}".format(round(int(response) * (-1) * 20 / 100))
     return f'{message} {formatted_number}'

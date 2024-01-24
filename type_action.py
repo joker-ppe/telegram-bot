@@ -86,6 +86,9 @@ def detect_guide(text):
     words = ['cú pháp', 'cu phap', 'hướng dẫn', 'huong dan']
     return detect_action(text, words)
 
+def detect_report_super(text):
+    words = ['report', 'báo cáo', 'bao cao']
+    return detect_action(text, words)
 #////////////////////////////////////////////////////////////////
 def detect_yesterday(text):
     words = ['hôm qua', 'hom qua', 'hqua', 'hqa']
