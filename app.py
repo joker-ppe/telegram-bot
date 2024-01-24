@@ -112,6 +112,16 @@ async def handle_response(context: ContextTypes.DEFAULT_TYPE, chat_id: int, full
 
         guide = get_guide()
         return guide, message_id
+    
+    elif detect_member_inactive(text_full):
+        if check_time_and_send_notification():
+            return 'Đang tính toán dữ liệu hôm nay. Sếp vui lòng nhắn sau khi có báo cáo tự động nhé ạ.', ''
+        else:
+            message_to_delete = await context.bot.send_message(chat_id, f'Đang tổng hợp dữ liệu. Sếp {full_name} đợi em chút nhé')
+            message_id = message_to_delete.message_id
+
+        members = await get_members_inactive(from_date, end_date)
+        return await send_member_inactive(members, time_text), message_id
 
     elif detect_os_cong_ty(text_full):
         if check_time_and_send_notification():

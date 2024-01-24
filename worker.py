@@ -146,3 +146,12 @@ async def get_members(from_date, end_date):
         if (len(response) == 0):
             return '***'
         return response
+    
+async def get_members_inactive(from_date, end_date):
+    url = f'{baseUrl}/report/membersInactive?startDate={from_date}&endDate={end_date}'
+    async with aiohttp.ClientSession() as session:
+        response = await fetch_url(session, url)
+        # print(response)
+        if (len(response) == 0):
+            return '***'
+        return response

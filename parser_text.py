@@ -1,3 +1,4 @@
+from datetime import datetime
 import prettytable as pt
 
 async def send_table(json_data, time_text, role='Cổ Đông'):
@@ -1083,6 +1084,10 @@ def get_guide():
         <td>lấy thông tin chi tiết cược của hội viên</td>
       </tr>
       <tr>
+        <td><span class="hightlight">member ko cược</span> tuần này/hôm nay/hôm qua/tuần trước</td>
+        <td>lấy danh sách Hội viên không cược</td>
+      </tr>
+      <tr>
         <td><span class="hightlight">xsmb</span></td>
         <td>lấy kết quả xổ số miền Bắc</td>
       </tr>
@@ -1092,6 +1097,93 @@ def get_guide():
 
 """
 
+
+async def send_member_inactive(json_data, time_text = 'tuần này'):
+    if (json_data == "***"):
+        return "Không tìm thấy thông tin. Sếp vui lòng kiểm tra và thử lại."
+    
+    size = len(json_data)
+
+    if size == 0:
+      return f"Tất cả Hội Viên đều hoạt động {time_text}."
+
+    html_table = "<html><body>"
+    html_table += """
+<head>
+    <meta charset="UTF-8">
+    <title>pdf</title>
+    <link href='https://fonts.googleapis.com/css?family=Be Vietnam Pro' rel='stylesheet'>
+<style>
+        td,
+      th,
+      tr,
+      table {
+        border: 1px solid #000000;
+        border-collapse: collapse;
+        padding: 5px;
+      }
+
+      th {
+        background-color: #faebd7;
+      }
+
+      table td:nth-child(2){
+        text-align: right;
+      }
+
+      table {
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 25px;
+      }
+
+      td{
+white-space:nowrap;
+}
+
+      body {
+        font-family: 'Be Vietnam Pro';
+      }
+
+      .win {
+        color: blue;
+      }
+
+      .lose {
+        color: red;
+      }
+
+    </style>
+</head>                    
+"""
+    html_table += "<table>"
+    html_table += f"<caption style='font-size: 35px; margin-bottom: 10px;'><strong>Báo cáo Hội Viên không hoạt động {time_text}</strong></caption>"
+    html_table += "<tr><th>STT.</th><th>TK</th><th>Agent</th><th>Thời gian tạo</th><th>Đăng nhập lần cuối</th></tr>"
+    
+    for index, (item) in enumerate(json_data, start=1):
+      full_name = item['full_name']
+      agent = item['parent']['full_name']
+      created_at = parse_date_time(item['created_at'])
+      last_login = parse_date_time(item['last_login'])
+
+      html_table += f"""
+                <tr>
+                  <td style='text-align: right;'>{index}</td>
+                  <td style='text-align: left;'>{full_name}</td>
+                  <td style='text-align: left;'>{agent}</td>
+                  <td style='text-align: left;'>{created_at}</td>
+                  <td style='text-align: left;'>{last_login}</td>
+                </tr>            
+    """
+
+    html_table += "</table>"
+    html_table += "</body></html>"
+
+    # Kết quả là một chuỗi HTML có thể được sử dụng trong Telegram Bot API
+    html_output = f'{html_table}'
+
+    return html_output
+    
 
 
 
@@ -1131,3 +1223,6 @@ def get_type_game(type):
         return 'Lô đuôi xiên 4'
     else:
         return 'none'
+    
+def parse_date_time(timestamp):
+    return datetime.fromtimestamp(timestamp).strftime('%d/%m/%Y %H:%M:%S')
