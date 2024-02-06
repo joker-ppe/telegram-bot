@@ -574,7 +574,79 @@ white-space:nowrap;
     html_output = f'{html_table}'
 
     return html_output
-        
+
+async def send_table_report_list(json_data): 
+    if (json_data == "***"):
+        return "Không tìm thấy thông tin. Sếp vui lòng kiểm tra và thử lại."
+    
+    html_table = "<html><body>"
+    html_table += """
+<head>
+    <meta charset="UTF-8">
+    <title>pdf</title>
+    <link href='https://fonts.googleapis.com/css?family=Be Vietnam Pro' rel='stylesheet'>
+<style>
+        td,
+      th,
+      tr,
+      table {
+        border: 1px solid #000000;
+        border-collapse: collapse;
+        padding: 5px;
+      }
+
+      th {
+        background-color: #faebd7;
+      }
+
+      table td:nth-child(2){
+        text-align: right;
+      }
+
+      table {
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 25px;
+      }
+
+      td{
+white-space:nowrap;
+}
+
+      body {
+        font-family: 'Be Vietnam Pro';
+      }
+
+      .win {
+        color: blue;
+      }
+
+      .lose {
+        color: red;
+      }
+
+    </style>
+</head>                    
+"""
+    html_table += "<table>"
+    html_table += "<tr><th>No.</th><th>Name</th><th>Nick name</th><th>Super</th><th>Master</th></tr>"
+
+    for index, (item) in enumerate(json_data, start=1):  
+        html_table += f"""<tr>
+                              <td style='text-align: right;'>{index}</td>
+                              <td style='text-align: left;'>{item['name']}</td>
+                              <td style='text-align: left;'>{item['nickName']}</td>
+                              <td style='text-align: left;'>{item['super']}</td>
+                              <td style='text-align: left;'>{item['master']}</td>
+                            </tr>"""  
+
+    html_table += "</table>"
+    html_table += "</body></html>"
+
+    # Kết quả là một chuỗi HTML có thể được sử dụng trong Telegram Bot API
+    html_output = f'{html_table}'
+
+    return html_output
 
 async def send_table_user_os_number_image(json_data):
     # print(json_data)
@@ -1086,6 +1158,10 @@ def get_guide():
       <tr>
         <td><span class="hightlight">member ko cược</span> tuần này/hôm nay/hôm qua/tuần trước</td>
         <td>lấy danh sách Hội viên không cược</td>
+      </tr>
+       <tr>
+        <td><span class="hightlight">report list</span> tuần này/tuần trước</td>
+        <td>lấy danh sách nick name report</td>
       </tr>
       <tr>
         <td><span class="hightlight">xsmb</span></td>

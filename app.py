@@ -113,9 +113,19 @@ async def handle_response(context: ContextTypes.DEFAULT_TYPE, chat_id: int, full
         guide = get_guide()
         return guide, message_id
     
+    elif detect_guide_report_list(text_full):
+        if check_time_and_send_notification():
+            return 'Đang tính toán dữ liệu hôm nay. Sếp vui lòng nhắn sau 18:41 nhé ạ.', ''
+        else:
+            message_to_delete = await context.bot.send_message(chat_id, f'Đang tổng hợp dữ liệu. Sếp {full_name} đợi em chút nhé')
+            message_id = message_to_delete.message_id
+
+        report = await get_list_report_info(report_date)
+        return await send_table_report_list(report), message_id
+    
     elif detect_member_inactive(text_full):
         if check_time_and_send_notification():
-            return 'Đang tính toán dữ liệu hôm nay. Sếp vui lòng nhắn sau khi có báo cáo tự động nhé ạ.', ''
+            return 'Đang tính toán dữ liệu hôm nay. Sếp vui lòng nhắn sau 18:41 nhé ạ.', ''
         else:
             message_to_delete = await context.bot.send_message(chat_id, f'Đang tổng hợp dữ liệu. Sếp {full_name} đợi em chút nhé')
             message_id = message_to_delete.message_id
@@ -125,7 +135,7 @@ async def handle_response(context: ContextTypes.DEFAULT_TYPE, chat_id: int, full
 
     elif detect_os_cong_ty(text_full):
         if check_time_and_send_notification():
-            return 'Đang tính toán dữ liệu hôm nay. Sếp vui lòng nhắn sau khi có báo cáo tự động nhé ạ.', ''
+            return 'Đang tính toán dữ liệu hôm nay. Sếp vui lòng nhắn sau 18:41 nhé ạ.', ''
         else:
             message_to_delete = await context.bot.send_message(chat_id, f'Đang tổng hợp dữ liệu. Sếp {full_name} đợi em chút nhé')
             message_id = message_to_delete.message_id
@@ -135,7 +145,7 @@ async def handle_response(context: ContextTypes.DEFAULT_TYPE, chat_id: int, full
         return check_response(f'Outstanding hôm nay:', os), message_id
     elif detect_os_super(text_full):
         if check_time_and_send_notification():
-            return 'Đang tính toán dữ liệu hôm nay. Sếp vui lòng nhắn sau khi có báo cáo tự động nhé ạ.', ''
+            return 'Đang tính toán dữ liệu hôm nay. Sếp vui lòng nhắn sau 18:41 nhé ạ.', ''
         else:
             message_to_delete = await context.bot.send_message(chat_id, f'Đang tổng hợp dữ liệu. Sếp {full_name} đợi em chút nhé')
             message_id = message_to_delete.message_id
@@ -144,7 +154,7 @@ async def handle_response(context: ContextTypes.DEFAULT_TYPE, chat_id: int, full
         return await send_table_os_image(supers, 'Cổ Đông'), message_id
     elif detect_os_master(text_full):
         if check_time_and_send_notification():
-            return 'Đang tính toán dữ liệu hôm nay. Sếp vui lòng nhắn sau khi có báo cáo tự động nhé ạ.', ''
+            return 'Đang tính toán dữ liệu hôm nay. Sếp vui lòng nhắn sau 18:41 nhé ạ.', ''
         else:
             message_to_delete = await context.bot.send_message(chat_id, f'Đang tổng hợp dữ liệu. Sếp {full_name} đợi em chút nhé')
             message_id = message_to_delete.message_id
@@ -153,7 +163,7 @@ async def handle_response(context: ContextTypes.DEFAULT_TYPE, chat_id: int, full
         return await send_table_os_image(masters, 'Tổng Đại Lý'), message_id
     elif detect_os_agent(text_full):
         if check_time_and_send_notification():
-            return 'Đang tính toán dữ liệu hôm nay. Sếp vui lòng nhắn sau khi có báo cáo tự động nhé ạ.', ''
+            return 'Đang tính toán dữ liệu hôm nay. Sếp vui lòng nhắn sau 18:41 nhé ạ.', ''
         else:
             message_to_delete = await context.bot.send_message(chat_id, f'Đang tổng hợp dữ liệu. Sếp {full_name} đợi em chút nhé')
             message_id = message_to_delete.message_id
@@ -162,7 +172,7 @@ async def handle_response(context: ContextTypes.DEFAULT_TYPE, chat_id: int, full
         return await send_table_os_image(agents, 'Đại Lý'), message_id
     elif detect_os_member(text_full):
         if check_time_and_send_notification():
-            return 'Đang tính toán dữ liệu hôm nay. Sếp vui lòng nhắn sau khi có báo cáo tự động nhé ạ.', ''
+            return 'Đang tính toán dữ liệu hôm nay. Sếp vui lòng nhắn sau 18:41 nhé ạ.', ''
         else:
             message_to_delete = await context.bot.send_message(chat_id, f'Đang tổng hợp dữ liệu. Sếp {full_name} đợi em chút nhé')
             message_id = message_to_delete.message_id
@@ -171,7 +181,7 @@ async def handle_response(context: ContextTypes.DEFAULT_TYPE, chat_id: int, full
         return await send_table_os_image(members, 'Hội Viên'), message_id
     elif detect_doanh_thu_cong_ty(text_full):
         if check_time_and_send_notification():
-            return 'Đang tính toán dữ liệu hôm nay. Sếp vui lòng nhắn sau khi có báo cáo tự động nhé ạ.', ''
+            return 'Đang tính toán dữ liệu hôm nay. Sếp vui lòng nhắn sau 18:41 nhé ạ.', ''
         else:
             message_to_delete = await context.bot.send_message(chat_id, f'Đang tổng hợp dữ liệu. Sếp {full_name} đợi em chút nhé')
             message_id = message_to_delete.message_id
@@ -180,7 +190,7 @@ async def handle_response(context: ContextTypes.DEFAULT_TYPE, chat_id: int, full
         return check_response_company_profit(f'Doanh thu công ty {time_text}:', profit), message_id
     elif detect_thau_ngoai(text_full):
         if check_time_and_send_notification():
-            return 'Đang tính toán dữ liệu hôm nay. Sếp vui lòng nhắn sau khi có báo cáo tự động nhé ạ.', ''
+            return 'Đang tính toán dữ liệu hôm nay. Sếp vui lòng nhắn sau 18:41 nhé ạ.', ''
         else:
             message_to_delete = await context.bot.send_message(chat_id, f'Đang tổng hợp dữ liệu. Sếp {full_name} đợi em chút nhé')
             message_id = message_to_delete.message_id
@@ -189,7 +199,7 @@ async def handle_response(context: ContextTypes.DEFAULT_TYPE, chat_id: int, full
         return check_response(f'Thầu ngoài {time_text}:', bid_outside), message_id
     elif detect_super(text_full):
         if check_time_and_send_notification():
-            return 'Đang tính toán dữ liệu hôm nay. Sếp vui lòng nhắn sau khi có báo cáo tự động nhé ạ.', ''
+            return 'Đang tính toán dữ liệu hôm nay. Sếp vui lòng nhắn sau 18:41 nhé ạ.', ''
         else:
             message_to_delete = await context.bot.send_message(chat_id, f'Đang tổng hợp dữ liệu. Sếp {full_name} đợi em chút nhé')
             message_id = message_to_delete.message_id
@@ -202,7 +212,7 @@ async def handle_response(context: ContextTypes.DEFAULT_TYPE, chat_id: int, full
         return await send_table_image(supers, time_text, 'Cổ Đông', threshold), message_id
     elif detect_master(text_full):
         if check_time_and_send_notification():
-            return 'Đang tính toán dữ liệu hôm nay. Sếp vui lòng nhắn sau khi có báo cáo tự động nhé ạ.', ''
+            return 'Đang tính toán dữ liệu hôm nay. Sếp vui lòng nhắn sau 18:41 nhé ạ.', ''
         else:
             message_to_delete = await context.bot.send_message(chat_id, f'Đang tổng hợp dữ liệu. Sếp {full_name} đợi em chút nhé')
             message_id = message_to_delete.message_id
@@ -215,7 +225,7 @@ async def handle_response(context: ContextTypes.DEFAULT_TYPE, chat_id: int, full
         return await send_table_image(masters, time_text, 'Tổng Đại Lý', threshold), message_id
     elif detect_agent(text_full):
         if check_time_and_send_notification():
-            return 'Đang tính toán dữ liệu hôm nay. Sếp vui lòng nhắn sau khi có báo cáo tự động nhé ạ.', ''
+            return 'Đang tính toán dữ liệu hôm nay. Sếp vui lòng nhắn sau 18:41 nhé ạ.', ''
         else:
             message_to_delete = await context.bot.send_message(chat_id, f'Đang tổng hợp dữ liệu. Sếp {full_name} đợi em chút nhé')
             message_id = message_to_delete.message_id
@@ -228,7 +238,7 @@ async def handle_response(context: ContextTypes.DEFAULT_TYPE, chat_id: int, full
         return await send_table_image(agents, time_text, 'Đại Lý', threshold), message_id
     elif detect_member(text_full):
         if check_time_and_send_notification():
-            return 'Đang tính toán dữ liệu hôm nay. Sếp vui lòng nhắn sau khi có báo cáo tự động nhé ạ.', ''
+            return 'Đang tính toán dữ liệu hôm nay. Sếp vui lòng nhắn sau 18:41 nhé ạ.', ''
         else:
             message_to_delete = await context.bot.send_message(chat_id, f'Đang tổng hợp dữ liệu. Sếp {full_name} đợi em chút nhé')
             message_id = message_to_delete.message_id
@@ -250,7 +260,7 @@ async def handle_response(context: ContextTypes.DEFAULT_TYPE, chat_id: int, full
 
         if detect_member_info_last_week(processed):
             if check_time_and_send_notification():
-                return 'Đang tính toán dữ liệu hôm nay. Sếp vui lòng nhắn sau khi có báo cáo tự động nhé ạ.', ''
+                return 'Đang tính toán dữ liệu hôm nay. Sếp vui lòng nhắn sau 18:41 nhé ạ.', ''
             else:
                 message_to_delete = await context.bot.send_message(chat_id, f'Đang tổng hợp dữ liệu. Sếp {full_name} đợi em chút nhé')
                 message_id = message_to_delete.message_id
@@ -260,7 +270,7 @@ async def handle_response(context: ContextTypes.DEFAULT_TYPE, chat_id: int, full
             return await send_table_user_image(user), message_id
         elif detect_member_info(processed):
             if check_time_and_send_notification():
-                return 'Đang tính toán dữ liệu hôm nay. Sếp vui lòng nhắn sau khi có báo cáo tự động nhé ạ.', ''
+                return 'Đang tính toán dữ liệu hôm nay. Sếp vui lòng nhắn sau 18:41 nhé ạ.', ''
             else:
                 message_to_delete = await context.bot.send_message(chat_id, f'Đang tổng hợp dữ liệu. Sếp {full_name} đợi em chút nhé')
                 message_id = message_to_delete.message_id
@@ -283,7 +293,7 @@ async def handle_response(context: ContextTypes.DEFAULT_TYPE, chat_id: int, full
         
         elif detect_report_super(processed):
             if check_time_and_send_notification():
-                return 'Đang tính toán dữ liệu hôm nay. Sếp vui lòng nhắn sau khi có báo cáo tự động nhé ạ.', ''
+                return 'Đang tính toán dữ liệu hôm nay. Sếp vui lòng nhắn sau 18:41 nhé ạ.', ''
             else:
                 message_to_delete = await context.bot.send_message(chat_id, f'Đang tổng hợp dữ liệu. Sếp {full_name} đợi em chút nhé')
                 message_id = message_to_delete.message_id
@@ -295,7 +305,7 @@ async def handle_response(context: ContextTypes.DEFAULT_TYPE, chat_id: int, full
 
         elif detect_member_info_os_bet(processed):
             if check_time_and_send_notification():
-                return 'Đang tính toán dữ liệu hôm nay. Sếp vui lòng nhắn sau khi có báo cáo tự động nhé ạ.', ''
+                return 'Đang tính toán dữ liệu hôm nay. Sếp vui lòng nhắn sau 18:41 nhé ạ.', ''
             else:
                 message_to_delete = await context.bot.send_message(chat_id, f'Đang tổng hợp dữ liệu. Sếp {full_name} đợi em chút nhé')
                 message_id = message_to_delete.message_id

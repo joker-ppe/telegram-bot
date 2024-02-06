@@ -93,6 +93,10 @@ def detect_report_super(text):
 def detect_member_inactive(text):
     words = ['member ko cược', 'member không cược']
     return detect_action(text, words)
+
+def detect_guide_report_list(text):
+    words = ['report list']
+    return detect_action(text, words)
 #////////////////////////////////////////////////////////////////
 def detect_yesterday(text):
     words = ['hôm qua', 'hom qua', 'hqua', 'hqa']
