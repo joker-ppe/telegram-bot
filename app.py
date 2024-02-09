@@ -64,6 +64,8 @@ async def handle_response(context: ContextTypes.DEFAULT_TYPE, chat_id: int, full
 
     text_full = text.replace(':', '').strip()
 
+    is_last_week = False
+
     today = datetime.now()
     # Calculate the number of days to subtract to get to Monday
     # weekday() returns 0 for Monday, 1 for Tuesday, and so on
@@ -97,6 +99,8 @@ async def handle_response(context: ContextTypes.DEFAULT_TYPE, chat_id: int, full
         from_date = last_monday.strftime('%Y-%m-%d')
         end_date = (last_monday + timedelta(days=6)).strftime('%Y-%m-%d')
         report_date = from_date
+
+        is_last_week = True
 
     # call api
     if detect_report_xsmb(text_full):
@@ -298,7 +302,7 @@ async def handle_response(context: ContextTypes.DEFAULT_TYPE, chat_id: int, full
                 message_to_delete = await context.bot.send_message(chat_id, f'Đang tổng hợp dữ liệu. Sếp {full_name} đợi em chút nhé')
                 message_id = message_to_delete.message_id
             
-            report = await get_report_super(report_date, info)
+            report = await get_report_super(report_date, info, is_last_week)
 
             return await send_table_report_super_image(report), message_id
 
