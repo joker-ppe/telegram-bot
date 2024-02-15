@@ -1307,5 +1307,5 @@ def parse_date_time(timestamp):
     return datetime.fromtimestamp(timestamp).strftime('%d/%m/%Y %H:%M:%S')
 
 def parse_date(date_string):
-    date = datetime.datetime.strptime(date_string, '%Y-%m-%d')
+    date = datetime.strptime(date_string, '%Y-%m-%d')
     return date.strftime('%d/%m/%Y')
