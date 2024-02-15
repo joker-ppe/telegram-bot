@@ -305,6 +305,17 @@ async def handle_response(context: ContextTypes.DEFAULT_TYPE, chat_id: int, full
             report = await get_report_super(report_date, info, is_last_week)
 
             return await send_table_report_super_image(report), message_id
+        
+        elif detect_report_super_tet(processed):
+            if check_time_and_send_notification():
+                return 'Đang tính toán dữ liệu hôm nay. Sếp vui lòng nhắn sau 18:41 nhé ạ.', ''
+            else:
+                message_to_delete = await context.bot.send_message(chat_id, f'Đang tổng hợp dữ liệu. Sếp {full_name} đợi em chút nhé')
+                message_id = message_to_delete.message_id
+            
+            report = await get_report_super_tet(datetime.now().strftime('%Y-%m-%d'), info)
+
+            return await send_table_report_super_image(report), message_id
 
 
         elif detect_member_info_os_bet(processed):

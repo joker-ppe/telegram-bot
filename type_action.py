@@ -90,6 +90,10 @@ def detect_report_super(text):
     words = ['report', 'báo cáo', 'bao cao']
     return detect_action(text, words)
 
+def detect_report_super_tet(text):
+    words = ['report tết', 'báo cáo tết', 'bao cao tet']
+    return detect_action(text, words)
+
 def detect_member_inactive(text):
     words = ['member ko cược', 'member không cược']
     return detect_action(text, words)

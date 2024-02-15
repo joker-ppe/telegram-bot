@@ -463,8 +463,11 @@ white-space:nowrap;
     </style>
 </head>                    
 """
+    from_date = parse_date({json_data['fromDate']})
+    to_date = parse_date({json_data['toDate']})
+
     html_table += "<table>"
-    html_table += f"<caption style='font-size: 35px; margin-bottom: 10px;'><strong>Báo cáo tuần {json_data['name']}</strong></caption>"
+    html_table += f"<caption style='font-size: 35px; margin-bottom: 10px;'><strong>Báo cáo {json_data['name']} từ ngày {from_date} đến ngày {to_date}</strong></caption>"
     html_table += "<tr><th>Super</th><th>TK</th><th>Thầu</th><th>Thắng thua</th><th>Hoa Hồng</th><th>Hoa Hồng Tuyến Dưới</th><th>Thanh Toán</th></tr>"
 
     total_profit = 0
@@ -1302,3 +1305,7 @@ def get_type_game(type):
     
 def parse_date_time(timestamp):
     return datetime.fromtimestamp(timestamp).strftime('%d/%m/%Y %H:%M:%S')
+
+def parse_date(date_string):
+    date = datetime.datetime.strptime(date_string, '%Y-%m-%d')
+    return date.strftime('%d/%m/%Y')

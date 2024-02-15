@@ -44,6 +44,14 @@ async def get_report_super(end_date, nick_name, is_last_week):
             return '***'
         return response
     
+async def get_report_super_tet(end_date, nick_name):
+    url = f'{baseUrl}/report/nickName/tet?endDate={end_date}&nickName={nick_name}'
+    async with aiohttp.ClientSession() as session:
+        response = await fetch_url(session, url)
+        if (len(response) == 0):
+            return '***'
+        return response
+    
 async def get_list_report_info(end_date):
     url = f'{baseUrl}/report/listReportInfo?endDate={end_date}'
     async with aiohttp.ClientSession() as session:
