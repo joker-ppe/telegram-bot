@@ -467,7 +467,7 @@ white-space:nowrap;
     to_date = parse_date(json_data['toDate'])
 
     html_table += "<table>"
-    html_table += f"<caption style='font-size: 35px; margin-bottom: 10px;'><strong>Báo cáo {json_data['name']} từ ngày {from_date} đến ngày {to_date}</strong></caption>"
+    html_table += f"<caption style='font-size: 35px; margin-bottom: 10px;'><strong>Báo cáo {json_data['name']}<br> từ ngày {from_date} đến ngày {to_date}</strong></caption>"
     html_table += "<tr><th>Super</th><th>TK</th><th>Thầu</th><th>Thắng thua</th><th>Hoa Hồng</th><th>Hoa Hồng Tuyến Dưới</th><th>Thanh Toán</th></tr>"
 
     total_profit = 0
