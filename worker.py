@@ -37,7 +37,7 @@ async def get_user_last_week(user_name):
         return response
     
 async def get_report_super(end_date, nick_name, is_last_week):
-    url = f'{baseUrl}/report/nickName?endDate={end_date}&nickName={nick_name}&isLastWeek={is_last_week}'
+    url = f'{baseUrl}/report/nickName?endDate={end_date}&nickName={nick_name.lower()}&isLastWeek={is_last_week}'
     async with aiohttp.ClientSession() as session:
         response = await fetch_url(session, url)
         if (len(response) == 0):
@@ -45,7 +45,7 @@ async def get_report_super(end_date, nick_name, is_last_week):
         return response
     
 async def get_report_super_tet(end_date, nick_name):
-    url = f'{baseUrl}/report/nickName/tet?endDate={end_date}&nickName={nick_name}'
+    url = f'{baseUrl}/report/nickName/tet?endDate={end_date}&nickName={nick_name.lower()}'
     async with aiohttp.ClientSession() as session:
         response = await fetch_url(session, url)
         if (len(response) == 0):
