@@ -307,8 +307,8 @@ async def send_table_user_image(json_data):
 """
     html_table += "<table>"
 
-    if (str(json_data['tet']) == 'true'):
-        html_table += f"<caption>Thông tin Tết</caption>"
+    if 'tet' in json_data and str(json_data['tet']) == 'True':
+      html_table += f"<caption>Thông tin Tết</caption>"
     # html_table += f"<caption>Outstanding {role} </caption>"
     html_table += f"<tr><th>{json_data['title']}</th><th>{json_data['full_name']}</th></tr>"
 
