@@ -308,7 +308,7 @@ async def send_table_user_image(json_data):
     html_table += "<table>"
 
     if 'tet' in json_data and str(json_data['tet']) == 'True':
-      html_table += f"<caption>Thông tin Tết</caption>"
+      html_table += f"<caption>Thông tin Tết<br>05/02 ➡️ 18/02</caption>"
     # html_table += f"<caption>Outstanding {role} </caption>"
     html_table += f"<tr><th>{json_data['title']}</th><th>{json_data['full_name']}</th></tr>"
 
@@ -341,25 +341,46 @@ async def send_table_user_image(json_data):
     <tr>
         <td style='text-align: left;'>{name}<br/>wl: {profit_item}<br/>os: {outstanding}<br/>hh: {commission}</td>
     </tr>
-    """            
+    """    
 
-    yesterdayData = "{:,}".format(round(json_data['yesterdayData']))
-    if round(json_data['yesterdayData']) > 0:
-        html_table += f"<tr><td>Thắng thua hôm qua</td><td class='win'>{yesterdayData}</td></tr>"
+    if 'tet' in json_data and str(json_data['tet']) == 'True':
+      beforeTetData = "{:,}".format(round(json_data['beforeTet']))
+      if round(json_data['beforeTet']) > 0:
+          html_table += f"<tr><td>W/L tuần trước Tết<br>05/02 ➡️ 11/02</td><td class='win'>{beforeTetData}</td></tr>"
+      else:
+          html_table += f"<tr><td>W/L tuần trước Tết<br>05/02 ➡️ 11/02</td><td class='lose'>{beforeTetData}</td></tr>"
+
+      afterTetData = "{:,}".format(round(json_data['afterTet']))
+      if round(json_data['afterTet']) > 0:
+          html_table += f"<tr><td>W/L tuần sau Tết<br>12/02 ➡️ 18/02</td><td class='win'>{afterTetData}</td></tr>"
+      else:
+          html_table += f"<tr><td>W/L tuần sau Tết<br>12/02 ➡️ 19/02</td><td class='lose'>{afterTetData}</td></tr>"
+      
+      profit = "{:,}".format(round(json_data['profit']))
+      if round(json_data['profit']) > 0:
+          html_table += f"<tr><td>W/L 2 tuần Tết<br>05/02 ➡️ 18/02</td><td class='win'>{profit}</td></tr>"
+      else:
+          html_table += f"<tr><td>W/L 2 tuần Tết<br>05/02 ➡️ 18/02</td><td class='lose'>{profit}</td></tr>"
     else:
-        html_table += f"<tr><td>Thắng thua hôm qua</td><td class='lose'>{yesterdayData}</td></tr>"
+      yesterdayData = "{:,}".format(round(json_data['yesterdayData']))
+      if round(json_data['yesterdayData']) > 0:
+          html_table += f"<tr><td>Thắng thua hôm qua</td><td class='win'>{yesterdayData}</td></tr>"
+      else:
+          html_table += f"<tr><td>Thắng thua hôm qua</td><td class='lose'>{yesterdayData}</td></tr>"
+      
+      todayData = "{:,}".format(round(json_data['todayData']))
+      if round(json_data['todayData']) > 0:
+          html_table += f"<tr><td>Thắng thua hôm nay</td><td class='win'>{todayData}</td></tr>"
+      else:
+          html_table += f"<tr><td>Thắng thua hôm nay</td><td class='lose'>{todayData}</td></tr>"
+
+      profit = "{:,}".format(round(json_data['profit']))
+      if round(json_data['profit']) > 0:
+          html_table += f"<tr><td>Thắng thua tuần này</td><td class='win'>{profit}</td></tr>"
+      else:
+          html_table += f"<tr><td>Thắng thua tuần này</td><td class='lose'>{profit}</td></tr>"       
+
     
-    todayData = "{:,}".format(round(json_data['todayData']))
-    if round(json_data['todayData']) > 0:
-        html_table += f"<tr><td>Thắng thua hôm nay</td><td class='win'>{todayData}</td></tr>"
-    else:
-        html_table += f"<tr><td>Thắng thua hôm nay</td><td class='lose'>{todayData}</td></tr>"
-
-    profit = "{:,}".format(round(json_data['profit']))
-    if round(json_data['profit']) > 0:
-        html_table += f"<tr><td>Thắng thua tuần này</td><td class='win'>{profit}</td></tr>"
-    else:
-        html_table += f"<tr><td>Thắng thua tuần này</td><td class='lose'>{profit}</td></tr>"
 
 
     outstanding = "{:,}".format(round(json_data['outstanding']))
