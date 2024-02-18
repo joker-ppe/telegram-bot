@@ -62,6 +62,10 @@ def detect_member_info(text):
     words = ['thông tin', 'thong tin', 'ttin', 'info', 'infor']
     return detect_action(text, words)
 
+def detect_member_info_tet(text):
+    words = ['thông tin tết', 'thong tin tet', 'ttin tet', 'info tết', 'infor tết']
+    return detect_action(text, words)
+
 def detect_member_info_last_week(text):
     words = ['thông tin tuần trước', 'thong tin tuan truoc', 'ttin tuan truoc', 'info last week', 'infor last week', 'info tuan truoc', 'infor tuan truoc', 'info tuần trước', 'infor tuần trước']
     return detect_action(text, words)

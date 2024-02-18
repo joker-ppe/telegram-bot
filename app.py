@@ -272,6 +272,16 @@ async def handle_response(context: ContextTypes.DEFAULT_TYPE, chat_id: int, full
             user = await get_user_last_week(info)
         
             return await send_table_user_image(user), message_id
+        elif detect_member_info_tet(processed):
+            if check_time_and_send_notification():
+                return 'Đang tính toán dữ liệu hôm nay. Sếp vui lòng nhắn sau 18:41 nhé ạ.', ''
+            else:
+                message_to_delete = await context.bot.send_message(chat_id, f'Đang tổng hợp dữ liệu. Sếp {full_name} đợi em chút nhé')
+                message_id = message_to_delete.message_id
+
+            user = await get_user_tet(info)
+            # user = await get_user(from_date, formatted_yesterday, (datetime.now() - timedelta(days=2)).strftime('%Y-%m-%d'), info)
+            return await send_table_user_image(user), message_id
         elif detect_member_info(processed):
             if check_time_and_send_notification():
                 return 'Đang tính toán dữ liệu hôm nay. Sếp vui lòng nhắn sau 18:41 nhé ạ.', ''
