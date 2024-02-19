@@ -354,7 +354,7 @@ async def send_table_user_image(json_data):
       if round(json_data['afterTet']) > 0:
           html_table += f"<tr><td>W/L tuần sau Tết<br>12/02 ➡️ 18/02</td><td class='win'>{afterTetData}</td></tr>"
       else:
-          html_table += f"<tr><td>W/L tuần sau Tết<br>12/02 ➡️ 19/02</td><td class='lose'>{afterTetData}</td></tr>"
+          html_table += f"<tr><td>W/L tuần sau Tết<br>12/02 ➡️ 18/02</td><td class='lose'>{afterTetData}</td></tr>"
       
       profit = "{:,}".format(round(json_data['profit']))
       if round(json_data['profit']) > 0:
