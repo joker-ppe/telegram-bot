@@ -469,7 +469,8 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     group_white_list = [
         -1002044356915, # hey
         -1002036601443, # loc phat
-        -1002109063811 # hau due
+        -1002109063811, # hau due
+        -4115120908, # Nghiện Lô Đề
     ]
 
     first_name = update.effective_user.first_name
