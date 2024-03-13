@@ -678,7 +678,7 @@ white-space:nowrap;
         if index == 0:
             html_table += f"""
                                     <tr>
-                                        <td style='text-align: center;'>{number_list_order_by_number}</td>
+                                        <td style='text-align: left;'>{number_list_order_by_number}</td>
                                         <td style='text-align: left;'>{point_list_order_by_number:,}</td>
                                         <td style='text-align: left;'>{amount_list_order_by_number:,}</td>
                                         <td rowspan='{len(list_order_by_number)}'></td>
@@ -690,12 +690,12 @@ white-space:nowrap;
         else:
             html_table += f"""
                                     <tr>
-                                        <td style='text-align: center;'>{number_list_order_by_number}</td>
-                                        <td style='text-align: right;'>{point_list_order_by_number:,}</td>
-                                        <td style='text-align: right;'>{amount_list_order_by_number:,}</td>
+                                        <td style='text-align: left;'>{number_list_order_by_number}</td>
+                                        <td style='text-align: left;'>{point_list_order_by_number:,}</td>
+                                        <td style='text-align: left;'>{amount_list_order_by_number:,}</td>
                                         <td style='text-align: center;'>{number_list_order_by_point}</td>
-                                        <td style='text-align: right;'>{point_list_order_by_point:,}</td>
-                                        <td style='text-align: right;'>{amount_list_order_by_point:,}</td>
+                                        <td style='text-align: left;'>{point_list_order_by_point:,}</td>
+                                        <td style='text-align: left;'>{amount_list_order_by_point:,}</td>
                                     </tr>
                                     """
 
