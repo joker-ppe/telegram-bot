@@ -27,12 +27,12 @@ def detect_de_duoi(text):
 
 
 def detect_de_dau_giai_1(text):
-    words = ['admin de dau giai 1', 'admin đề đầu giải 1']
+    words = ['admin de dau giai 1', 'admin đề đầu giải 1', 'admin de dau g1', 'admin đề đầu g1']
     return detect_action(text, words)
 
 
 def detect_de_duoi_giai_1(text):
-    words = ['admin de duoi giai 1', 'admin đề đuôi giải 1']
+    words = ['admin de duoi giai 1', 'admin đề đuôi giải 1', 'admin de duoi g1', 'admin đề đuôi g1']
     return detect_action(text, words)
 
 
