@@ -17,12 +17,12 @@ class TypeAction(Enum):
 
 
 def detect_de_dau(text):
-    words = ['admin de dau dac biet', 'admin đề đầu đặc biệt']
+    words = ['admin de dau dac biet', 'admin đề đầu đặc biệt', 'admin de dau db', 'admin đề đầu db']
     return detect_action(text, words)
 
 
 def detect_de_duoi(text):
-    words = ['admin de dau dac biet', 'admin đề đuôi đặc biệt']
+    words = ['admin de duoi dac biet', 'admin đề đuôi đặc biệt', 'admin de duoi db', 'admin đề đuôi db']
     return detect_action(text, words)
 
 
