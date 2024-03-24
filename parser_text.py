@@ -125,12 +125,12 @@ async def send_table_image(json_data, time_text='tuần này', role='Cổ Đông
                 html_table += f"<tr><td>{index}</td><td>{full_name}</td><td class='lose' style='text-align: right;'>{profit:,}</td></tr>"
     else:
         colspan = 3
-        html_table += "<tr><th>STT.</th><th>{}</th><th>Thầu</th><th>Thắng thua</th></tr>".format(role)
+        html_table += "<tr><th>STT.</th><th>{}</th><th>Thắng thua</th></tr>".format(role)
         for index, (full_name, bid_percent, profit) in enumerate(data, start=1):
             if profit > 0:
-                html_table += f"<tr><td>{index}</td><td>{full_name}</td><td style='text-align: right;'>{bid_percent}</td><td class='win' style='text-align: right;'>{profit:,}</td></tr>"
+                html_table += f"<tr><td>{index}</td><td>{full_name}</td><td class='win' style='text-align: right;'>{profit:,}</td></tr>"
             else:
-                html_table += f"<tr><td>{index}</td><td>{full_name}</td><td style='text-align: right;'>{bid_percent}</td><td class='lose' style='text-align: right;'>{profit:,}</td></tr>"
+                html_table += f"<tr><td>{index}</td><td>{full_name}</td><td class='lose' style='text-align: right;'>{profit:,}</td></tr>"
 
     # Thêm hàng tổng
     if total > 0:
@@ -179,13 +179,13 @@ async def send_table_os(json_data, role='Cổ Đông'):
 
 
 async def send_table_os_image(json_data, role='Cổ Đông'):
-    if (json_data == "***"):
+    if json_data == "***":
         return "Không tìm thấy thông tin. Sếp vui lòng kiểm tra và thử lại."
 
     data = [(item["full_name"], item["outstanding"])
             for item in json_data if item["outstanding"] != 0]
 
-    if (len(data) == 0):
+    if len(data) == 0:
         return "Không tìm thấy thông tin. Sếp vui lòng kiểm tra và thử lại."
 
     data = sorted(data, key=lambda x: x[1], reverse=True)
