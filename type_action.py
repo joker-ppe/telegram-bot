@@ -127,6 +127,11 @@ def detect_member_info_os_bet(text):
     return detect_action(text, words)
 
 
+def detect_check_member_os_bet(text):
+    words = ['check os bet', 'check os cuoc', 'check os cược']
+    return detect_action(text, words)
+
+
 def detect_report_number(text):
     words = ['báo cáo số', 'bao cao so']
     return detect_action(text, words)
@@ -195,3 +200,8 @@ def word_in_text(word, text):
     # This regular expression pattern looks for the whole word
     pattern = r'\b' + re.escape(word) + r'\b'
     return bool(re.search(pattern, text.replace('.', ''), re.IGNORECASE))
+
+
+class DataNumber:
+    def __init__(self, numbers):
+        self.numbers = numbers

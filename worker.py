@@ -6,8 +6,9 @@ from bs4 import BeautifulSoup
 
 from style import get_style
 
-
 baseUrl = "http://3.1.5.108"
+
+
 # baseUrl = "https://api.winwwin68.com"
 # baseUrl = "http://localhost:3004"
 
@@ -20,94 +21,116 @@ async def fetch_url(session, url):
         else:
             return ''
 
+
 async def get_user(from_date, end_date, yesterday, user_name):
     url = f'{baseUrl}/report/user?startDate={from_date}&endDate={end_date}&yesterday={yesterday}&userName={user_name}'
     async with aiohttp.ClientSession() as session:
         response = await fetch_url(session, url)
-        if (len(response) == 0):
+        if len(response) == 0:
             return '***'
         return response
+
 
 async def get_user_tet(user_name):
     url = f'{baseUrl}/report/user/tet?userName={user_name}'
     async with aiohttp.ClientSession() as session:
         response = await fetch_url(session, url)
-        if (len(response) == 0):
+        if len(response) == 0:
             return '***'
         return response
+
 
 async def get_user_last_week(user_name):
     url = f'{baseUrl}/report/userLastWeek?userName={user_name}'
     async with aiohttp.ClientSession() as session:
         response = await fetch_url(session, url)
-        if (len(response) == 0):
+        if len(response) == 0:
             return '***'
         return response
-    
+
+
 async def get_report_super(end_date, nick_name, is_last_week):
     url = f'{baseUrl}/report/nickName?endDate={end_date}&nickName={nick_name.lower()}&isLastWeek={is_last_week}'
     async with aiohttp.ClientSession() as session:
         response = await fetch_url(session, url)
-        if (len(response) == 0):
+        if len(response) == 0:
             return '***'
         return response
-    
+
+
 async def get_report_super_tet(end_date, nick_name):
     url = f'{baseUrl}/report/nickName/tet?endDate={end_date}&nickName={nick_name.lower()}'
     async with aiohttp.ClientSession() as session:
         response = await fetch_url(session, url)
-        if (len(response) == 0):
+        if len(response) == 0:
             return '***'
         return response
-    
+
+
 async def get_list_report_info(end_date):
     url = f'{baseUrl}/report/listReportInfo?endDate={end_date}'
     async with aiohttp.ClientSession() as session:
         response = await fetch_url(session, url)
-        if (len(response) == 0):
+        if len(response) == 0:
             return '***'
         return response
-    
+
+
 async def get_user_data(from_date, end_date, user_name, filter='profit'):
     url = f'{baseUrl}/report?startDate={from_date}&endDate={end_date}&userName={user_name}'
     async with aiohttp.ClientSession() as session:
         response = await fetch_url(session, url)
-        if (len(response) == 0):
+        if len(response) == 0:
             return '***'
         return response[filter]
         # print(response)
-    
+
+
 async def get_report_number(end_date):
     url = f'{baseUrl}/report/numbers?endDate={end_date}'
     async with aiohttp.ClientSession() as session:
         response = await fetch_url(session, url)
-        if (len(response) == 0):
+        if len(response) == 0:
             return '***'
         return response
+
 
 async def get_user_os_bet(end_date, user_name):
     url = f'{baseUrl}/report/user/os_bet?endDate={end_date}&userName={user_name}'
     async with aiohttp.ClientSession() as session:
         response = await fetch_url(session, url)
-        if (len(response) == 0):
+        if len(response) == 0:
             return '***'
         return response
+
+
+async def check_user_os_bet(end_date, data):
+    url = f'{baseUrl}/report/user/check_os_bet?endDate={end_date}&numbers={data.numbers}'
+    async with aiohttp.ClientSession() as session:
+        response = await fetch_url(session, url)
+        if len(response) == 0:
+            return '***'
+        return response
+
 
 async def get_user_os_number(end_date, user_name):
     url = f'{baseUrl}/report/user/os_number?endDate={end_date}&userName={user_name}'
     async with aiohttp.ClientSession() as session:
         response = await fetch_url(session, url)
-        if (len(response) == 0):
+        if len(response) == 0:
             return '***'
         return response
+
 
 async def get_user_profit(from_date, end_date, user_name):
     response = await get_user_data(from_date, end_date, user_name, filter='profit')
     return response
 
+
 async def get_user_os(from_date, end_date, user_name):
     response = await get_user_data(from_date, end_date, user_name, filter='outstanding')
     return response
+
 
 async def get_report_xsmb():
     url = 'https://xoso.com.vn/'
@@ -126,56 +149,62 @@ async def get_report_xsmb():
     html_table += "</body></html>"
     return html_table
 
+
 async def get_user_outside_bid(from_date, end_date):
     url = f'{baseUrl}/report/bidOutside?startDate={from_date}&endDate={end_date}'
     async with aiohttp.ClientSession() as session:
         response = await fetch_url(session, url)
         # print(response)
-        if (len(response) == 0):
+        if len(response) == 0:
             return '***'
         return int(response['outsideBid']) * (-1)
-    
+
+
 async def get_supers(from_date, end_date):
     url = f'{baseUrl}/report/supers?startDate={from_date}&endDate={end_date}'
     async with aiohttp.ClientSession() as session:
         response = await fetch_url(session, url)
         # print(response)
-        if (len(response) == 0):
+        if len(response) == 0:
             return '***'
         return response
-    
+
+
 async def get_masters(from_date, end_date):
     url = f'{baseUrl}/report/masters?startDate={from_date}&endDate={end_date}'
     async with aiohttp.ClientSession() as session:
         response = await fetch_url(session, url)
         # print(response)
-        if (len(response) == 0):
+        if len(response) == 0:
             return '***'
         return response
-    
+
+
 async def get_agents(from_date, end_date):
     url = f'{baseUrl}/report/agents?startDate={from_date}&endDate={end_date}'
     async with aiohttp.ClientSession() as session:
         response = await fetch_url(session, url)
         # print(response)
-        if (len(response) == 0):
+        if len(response) == 0:
             return '***'
         return response
+
 
 async def get_members(from_date, end_date):
     url = f'{baseUrl}/report/members?startDate={from_date}&endDate={end_date}'
     async with aiohttp.ClientSession() as session:
         response = await fetch_url(session, url)
         # print(response)
-        if (len(response) == 0):
+        if len(response) == 0:
             return '***'
         return response
-    
+
+
 async def get_members_inactive(from_date, end_date):
     url = f'{baseUrl}/report/membersInactive?startDate={from_date}&endDate={end_date}'
     async with aiohttp.ClientSession() as session:
         response = await fetch_url(session, url)
         # print(response)
-        if (len(response) == 0):
+        if len(response) == 0:
             return '***'
         return response

@@ -111,6 +111,22 @@ async def handle_response(context: ContextTypes.DEFAULT_TYPE, chat_id: int, full
         report = await get_report_xsmb()
         return report, message_id
 
+    elif len(text.split(':')) > 1 and detect_check_member_os_bet(text.split(':')[0]):
+        message_to_delete = await context.bot.send_message(chat_id,
+                                                           f'Đang lấy dữ liệu. Sếp {full_name} đợi em chút nhé')
+        message_id = message_to_delete.message_id
+
+        end_date = datetime.now().strftime('%Y-%m-%d')
+
+        text_full = text.split(':')
+
+        numbers = text_full[1].replace(" ","")
+
+        data = DataNumber(numbers)
+
+        users = await check_user_os_bet(end_date, data)
+        return await send_table_os_bet_cheat_image(data, users), message_id
+
     elif detect_guide(text_full):
         message_to_delete = await context.bot.send_message(chat_id,
                                                            f'Đang lấy dữ liệu. Sếp {full_name} đợi em chút nhé')
