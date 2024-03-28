@@ -772,7 +772,7 @@ async def send_table_os_bet_cheat_image(data, json_data):
             <strong>Danh sách đánh số phím:<br>
                     {data.numbers}</strong>
                             </caption>"""
-    html_table += "<tr><th>No.</th><th>Tài khoản</th><th>Game</th></tr>"
+    html_table += "<tr><th>No.</th><th>Tài khoản</th><th>Game</th><th>Điểm</th><th>Tiền</th></tr>"
 
     for index, (item) in enumerate(json_data, start=1):
         html_table += f"""
@@ -780,6 +780,8 @@ async def send_table_os_bet_cheat_image(data, json_data):
                                                 <td style='text-align: left;'>{index}</td>
                                                 <td style='text-align: left;'>{item['line']}</td>
                                                 <td style='text-align: left;'>{get_type_game(int(item['game']))}</td>
+                                                <td style='text-align: left;'>{item['point']:,}</td>
+                                                <td style='text-align: left;'>{item['amount']:,}</td>
                                             </tr>
                                             """
 
